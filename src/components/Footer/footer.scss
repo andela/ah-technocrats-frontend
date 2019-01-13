@@ -1,0 +1,12 @@
+$link_color: white;
+$footer_background_color: #777;
+
+.footer {
+	height: 10vh;
+	background-color: $footer_background_color;
+	box-shadow: 0 6px 6px -6px #777;
+}
+
+#pusher {
+    min-height: 95vh;
+}

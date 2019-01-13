@@ -1,2 +1,3 @@
 exclude_patterns:
 - "**/*.test.js"
+- "**/countriesData.js"

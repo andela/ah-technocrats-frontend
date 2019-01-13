@@ -2,12 +2,7 @@
     padding:0;
     margin:0;
 }
-.image {
-    width: 300px;
-    margin: 0 450px;
-    padding-left:20px;
-    
-}
+
 
 .nav-image {
     width: 300px;
@@ -130,12 +125,6 @@ color: green;
 cursor: pointer;
 }
 
-.footer {
-    height:170px;
-    background-color: #777;
-    box-shadow: 0 6px 6px -6px #777;
-}
-
 .footer-links {
     color:white;
 }
@@ -170,7 +159,6 @@ div [class*="right float"] {
         display: none;
     }
     .image.logo-small{
-        display: inline!important;
         margin-left: 20%;
         width: 120px!important;
         height: 80px!important;
