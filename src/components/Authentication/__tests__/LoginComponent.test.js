@@ -33,6 +33,7 @@ describe('Login component form', () => {
     },
     onSubmit,
     loading: true,
+    message: '',
   };
 
   beforeEach(() => {

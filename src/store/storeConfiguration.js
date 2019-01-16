@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 import { createStore, applyMiddleware } from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunk from 'redux-thunk';
@@ -10,8 +11,11 @@ import rootReducer from '../reducers';
 const configureStore = createStore(
   rootReducer,
   composeWithDevTools(
-    applyMiddleware(thunk, logger, reduxImmutableStateInvariant())
+    applyMiddleware(
+      thunk,
+      logger,
+      reduxImmutableStateInvariant()
+    )
   )
 );
-
 export default configureStore;
