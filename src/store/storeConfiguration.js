@@ -6,6 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from '../reducers';
 
 // initializes the store with a state
+/* eslint-disable comma-dangle */
 const configureStore = createStore(
   rootReducer,
   composeWithDevTools(
