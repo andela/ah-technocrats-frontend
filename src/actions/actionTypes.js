@@ -14,3 +14,6 @@ export const TWITTER = 'TWITTER_ACCESS_CODE';
 export const RECEIVE_DATA = 'RECEIVE_DATA';
 export const FETCHING = 'FETCHING';
 export const FETCH_FAILED = 'FETCH_FAILED';
+export const SEARCH_SUBMIT = 'SEARCH_SUBMIT';
+export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
+export const SEARCH_FAIL = 'SEARCH_FAIL';

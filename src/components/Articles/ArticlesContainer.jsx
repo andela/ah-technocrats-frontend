@@ -26,10 +26,10 @@ export class ArticleContainer extends React.Component {
   }
 
   render() {
-    const { articles } = this.props;
+    const { articles, history } = this.props;
     return (
       <React.Fragment>
-        <Header />
+        <Header history={history} />
         <Sidebar.Pushable as={Segment} attached="bottom">
           <SideBarMenu />
           <Sidebar.Pusher id="pusher" className="pusher-height">
@@ -45,11 +45,13 @@ export class ArticleContainer extends React.Component {
 ArticleContainer.propTypes = {
   fetchArticles: PropTypes.func,
   articles: PropTypes.arrayOf(PropTypes.object),
+  history: PropTypes.shape({}),
 };
 
 ArticleContainer.defaultProps = {
   fetchArticles: () => {},
   articles: [],
+  history: null,
 };
 
 const mapStateToProps = state => ({

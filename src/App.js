@@ -3,9 +3,10 @@ import 'semantic-ui-css/semantic.min.css';
 import { Route } from 'react-router';
 import { Switch, BrowserRouter } from 'react-router-dom';
 
+import RegistrationPage from './components/Authentication/Registration/RegistrationPage';
+import SearchResultsPage from './components/Search/SearchResultsPage';
 import Error from './components/ErrorHandlers/MissingPageError';
 import ArticleContainer from './components/Articles/ArticlesContainer';
-import RegistrationPage from './components/Authentication/Registration/RegistrationPage';
 import LoginContainer from './components/Authentication/Login/LoginContainer';
 
 
@@ -19,6 +20,8 @@ class App extends Component {
             <Route path="/articles" component={ArticleContainer} exact />
             <Route path="/register" component={RegistrationPage} exact />
             <Route exact path="/login" component={LoginContainer} />
+            <Route path="/search" component={SearchResultsPage} exact />
+
             <Route component={Error} />
           </Switch>
         </BrowserRouter>
