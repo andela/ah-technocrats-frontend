@@ -7,6 +7,32 @@
     cursor: pointer;
 }
 
+#imageView {
+    height: 100px;
+    width: 200px;
+}
+
+.image {
+    width: 300px;
+    margin: 0 450px;
+    padding-left:20px;
+    
+}
+.articleImg{
+    width:100% !important;
+    height: 100% !important;
+    max-height:150px !important;
+}
+
+.allArticles{
+    min-height: (100vh)-25;
+}
+
+.descriptive {
+    background-color: #67bd45;
+    font-family: 'Quicksand', sans-serif;
+}
+
 .nav-image {
     width: 300px;
     max-width: initial !important;
@@ -17,6 +43,10 @@
     margin: 0 auto;
     padding-left:20px;
 
+}
+
+.articleInput{
+    width: 100vw;
 }
 
 .auto {

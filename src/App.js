@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { Route } from 'react-router';
 import { Switch, BrowserRouter } from 'react-router-dom';
-import SearchResultsPageComponent from './components/Search/SearchResultsPage';
 import Error from './components/ErrorHandlers/MissingPageError';
 import ViewSingleArticleComponent from './container/viewArticleContainer';
 import ArticleContainerComponent from './components/Articles/ArticlesContainer';
@@ -13,6 +12,8 @@ import SearchResultsPageContainer from './components/Search/SearchResultsPage';
 import UserSpecificArticlesContainer from './components/Articles/UserSpecificArticlesContainer';
 import IsAuthenticated from './common/IsAuthenticated';
 
+
+import CreateArticleFormContainer from './components/Articles/CreateArticleFormContainer';
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
             <IsAuthenticated path="/profile" exact component={Profile} />
             <Route path="/search" component={SearchResultsPageContainer} exact />
             <IsAuthenticated exact path="/myarticles" component={UserSpecificArticlesContainer} />
+            <IsAuthenticated path="/new_article" component={CreateArticleFormContainer} exact />
             <Route component={Error} />
           </Switch>
         </BrowserRouter>

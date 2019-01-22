@@ -1,40 +1,53 @@
 import axios from 'axios';
-import {
-  FETCH_ARTICLES, FETCH_ARTICLES_SUCCESS, FETCH_ARTICLES_FAILS, PAGE, NEXT_PAGE,
-} from './actionTypes';
+import Cookies from 'js-cookie';
+
+import * as types from './actionTypes';
 
 export const fetchAllArticles = () => (
   {
-    type: FETCH_ARTICLES,
+    type: types.FETCH_ARTICLES,
   }
 );
-
 export const fetchArticlesSuccess = payload => (
   {
-    type: FETCH_ARTICLES_SUCCESS,
+    type: types.FETCH_ARTICLES_SUCCESS,
     payload,
   }
 );
 
 export const fetchPagesCount = payload => (
   {
-    type: PAGE,
+    type: types.PAGE,
     payload,
   }
 );
 
-export const fetchArticleFails = errorMessage => (
+export const fetchArticleFails = error => (
   {
-    type: FETCH_ARTICLES_FAILS,
-    errorMessage,
+    type: types.FETCH_ARTICLES_FAILS,
+    error,
   }
 );
 export const getNextPage = () => (
   {
-    type: NEXT_PAGE,
+    type: types.NEXT_PAGE,
   }
 );
 
+
+export const create = articleData => ({
+  type: types.CREATE_ARTICLE,
+  articleData,
+});
+export const createFail = error => ({
+  type: types.CREATE_ARTICLE_FAILS,
+  error,
+});
+
+export const createSuccess = response => ({
+  type: types.CREATE_ARTICLE_SUCCESS,
+  response,
+});
 
 export function fetchArticles() {
   return (dispatch) => {
@@ -63,3 +76,20 @@ export function getPage(page) {
       .catch(errorMessage => dispatch(fetchArticleFails(errorMessage)));
   };
 }
+const token = Cookies.get('access_token');
+
+export const createArticle = articleData => (dispatch) => {
+  dispatch(create(articleData));
+  return axios.post('https://ah-technocrats.herokuapp.com/api/articles/', articleData, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`,
+    },
+  })
+    .then(res => dispatch(createSuccess(res.data.message)))
+    .catch((error) => {
+      dispatch(createFail(error));
+    });
+};
+
+export default fetchArticles;

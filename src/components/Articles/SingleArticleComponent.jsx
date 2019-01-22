@@ -18,7 +18,7 @@ const formatDates = (date) => {
 const SingleArticleComponent = ({ article }) => (
   <div className="item" key={article.id}>
     <div className="image">
-      <img src="https://placeimg.com/640/480/nature" alt="andela" />
+      <img src={article.image || 'https://i1.wp.com/thefrontline.org.uk/wp-content/uploads/2018/10/placeholder.jpg?ssl=1'} className="articleImg" alt="andela" />
     </div>
     <div className="top aligned content">
       {/* to="article.htm" to be replaced with link to single
