@@ -5,6 +5,8 @@ import ownArticlesReducer from './userSpecificReducer';
 import loginReducer from './loginReducers';
 import searchReducer from './searchReducer';
 import getFetchArticle from './viewArticleReducer';
+import updateArticlesReducer from './updateArticlesReducer';
+
 import socialAuth from './socialAuthReducer';
 import profileDetails from './profileReducer';
 
@@ -17,6 +19,8 @@ const rootReducer = combineReducers({
   searchReducer,
   getFetchArticle,
   profileDetails,
+  updateArticlesReducer,
+
 });
 
 export default rootReducer;

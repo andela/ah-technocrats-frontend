@@ -1,10 +1,6 @@
 import React from 'react';
 import Enzyme, { mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import UserSpecificArticleComponent from '../Articles/UserSpecificArticleComponent';
 
 Enzyme.configure({
@@ -25,6 +21,9 @@ const props = {
   image: 'image url',
   name: 'verencelola',
   setName: jest.fn(),
+  history: {
+    push: jest.fn(),
+  },
 };
 describe('UserSpecifc Component', () => {
   beforeEach(() => {
@@ -47,6 +46,9 @@ describe('UserSpecifc Component', () => {
       deleteIcon.at(0).simulate('click');
       const confirmDelete = mountWrapper.find('Button');
       expect(confirmDelete).toBeDefined();
+    });
+    it('opens renders the previous input to the next page', () => {
+      mountWrapper.find('button#submit').simulate('click');
     });
   });
 });
