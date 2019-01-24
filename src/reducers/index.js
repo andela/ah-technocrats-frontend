@@ -3,6 +3,7 @@ import registrationReducer from './registrationReducer';
 import articleReducer from './articleReducer';
 import loginReducer from './loginReducers';
 import searchReducer from './searchReducer';
+import getFetchArticle from './viewArticleReducer';
 
 import socialAuth from './socialAuthReducer';
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   loginReducer,
   socialAuth,
   searchReducer,
+  getFetchArticle,
 });
 
 export default rootReducer;
