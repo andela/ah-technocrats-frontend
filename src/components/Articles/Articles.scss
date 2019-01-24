@@ -3,6 +3,9 @@
     margin:0;
 }
 
+.delete-icon {
+    cursor: pointer;
+}
 
 .nav-image {
     width: 300px;
@@ -124,6 +127,15 @@
 color: green;
 cursor: pointer;
 }
+.article-image {
+    height: 110px !important;
+    width: 140px !important;
+}
+.footer {
+    height:10vh !important;
+    background-color: #777;
+    box-shadow: 0 6px 6px -6px #777;
+}
 
 .footer-links {
     color:white;
@@ -219,4 +231,7 @@ a.red{
 
 .cursor {
     cursor: pointer;
+}
+.break {
+    margin-top: 135px !important;
 }

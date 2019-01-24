@@ -8,8 +8,11 @@ import ViewSingleArticleComponent from './container/viewArticleContainer';
 import ArticleContainerComponent from './components/Articles/ArticlesContainer';
 import RegistrationPageComponent from './components/Authentication/Registration/RegistrationPage';
 import LoginContainer from './components/Authentication/Login/LoginContainer';
-
 import Profile from './containers/ProfileContainer';
+import SearchResultsPageContainer from './components/Search/SearchResultsPage';
+import UserSpecificArticlesContainer from './components/Articles/UserSpecificArticlesContainer';
+import IsAuthenticated from './common/IsAuthenticated';
+
 
 class App extends Component {
   render() {
@@ -18,12 +21,13 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/login" component={LoginContainer} />
-            <Route path="/search" component={SearchResultsPageComponent} exact />
             <Route exact path="/articles/:slug" component={ViewSingleArticleComponent} />
             <Route path="/" component={ArticleContainerComponent} exact />
             <Route path="/articles" component={ArticleContainerComponent} exact />
             <Route path="/register" component={RegistrationPageComponent} exact />
-            <Route path="/profile" exact component={Profile} />
+            <IsAuthenticated path="/profile" exact component={Profile} />
+            <Route path="/search" component={SearchResultsPageContainer} exact />
+            <IsAuthenticated exact path="/myarticles" component={UserSpecificArticlesContainer} />
             <Route component={Error} />
           </Switch>
         </BrowserRouter>
