@@ -27,7 +27,6 @@ const SingleArticleComponent = ({ article }) => (
       <div className="excerpt">
         {article.description}
         <br />
-        {article.body}
       </div>
       <div className="small-margin tagline">
         <span className="date">{formatDates(article.created_at)}</span>

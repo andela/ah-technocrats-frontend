@@ -7,7 +7,7 @@ import {
   Segment,
 } from 'semantic-ui-react';
 
-import fetchArticlesAct from '../../actions/articleActions';
+import { fetchArticles, pageData, getPage } from '../../actions/articleActions';
 import Footer from '../Footer/Footer';
 import SideBarMenu from '../Menu/Menu';
 import AllArticlesComponent from './AllArticlesComponent';
@@ -21,19 +21,27 @@ export class ArticleContainer extends React.Component {
   }
 
   componentWillMount() {
-    const { fetchArticles } = this.props;
-    fetchArticles();
+    const { fetchAllArticles, fetchpageData } = this.props;
+    fetchAllArticles();
+    fetchpageData();
   }
 
+
   render() {
-    const { articles, history } = this.props;
+    const {
+      articles, history, pagination, getNewPage,
+    } = this.props;
     return (
       <React.Fragment>
         <Header history={history} />
         <Sidebar.Pushable as={Segment} attached="bottom">
           <SideBarMenu />
           <Sidebar.Pusher id="pusher" className="pusher-height">
-            <AllArticlesComponent articles={articles} />
+            <AllArticlesComponent
+              articles={articles}
+              pagination={pagination}
+              getNewPage={getNewPage}
+            />
           </Sidebar.Pusher>
         </Sidebar.Pushable>
         <Footer />
@@ -42,22 +50,36 @@ export class ArticleContainer extends React.Component {
   }
 }
 
+ArticleContainer.defaultProps = {
+  pagination: null,
+  getNewPage: null,
+};
+
 ArticleContainer.propTypes = {
-  fetchArticles: PropTypes.func,
+  fetchAllArticles: PropTypes.func,
+  fetchpageData: PropTypes.func,
+  getNewPage: PropTypes.shape({}),
   articles: PropTypes.arrayOf(PropTypes.object),
   history: PropTypes.shape({}),
+  pagination: PropTypes.arrayOf(PropTypes.object),
 };
 
 ArticleContainer.defaultProps = {
-  fetchArticles: () => {},
+  fetchAllArticles: () => {},
+  fetchpageData: () => {},
   articles: [],
   history: null,
 };
 
 const mapStateToProps = state => ({
   articles: state.articles.items,
+  pagination: state.articles.count,
+  // set state for article data
+  articleData: state.articles,
 });
 
 export default connect(mapStateToProps, {
-  fetchArticles: fetchArticlesAct,
+  fetchAllArticles: fetchArticles,
+  fetchpageData: pageData,
+  getNewPage: getPage,
 })(ArticleContainer);

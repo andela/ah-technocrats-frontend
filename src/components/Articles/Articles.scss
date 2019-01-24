@@ -85,6 +85,10 @@
     margin-top: 20px;
 }
 
+.pagination-button {
+    margin-bottom: 20px;
+}
+
 .space-bottom {
     margin-bottom:50px
 }
@@ -223,4 +227,8 @@ div [class*="right float"] {
 
 a.red{
     color:#67bd45!important;
+}
+
+.cursor {
+    cursor: pointer;
 }
