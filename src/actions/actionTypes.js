@@ -17,3 +17,6 @@ export const FETCH_FAILED = 'FETCH_FAILED';
 export const SEARCH_SUBMIT = 'SEARCH_SUBMIT';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAIL = 'SEARCH_FAIL';
+export const UPDATED_ARTICLES = 'UPDATED_ARTICLES';
+export const PAGE = 'GET_PAGES_COUNT';
+export const NEXT_PAGE = 'NEXT_PAGE';

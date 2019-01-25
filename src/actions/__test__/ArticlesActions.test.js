@@ -2,10 +2,13 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 import * as actions from '../articleActions';
 import * as types from '../actionTypes';
 
+const mock = new MockAdapter(axios);
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
@@ -130,6 +133,83 @@ describe('Article Actions types', () => {
         type: types.FETCH_ARTICLES_FAILS,
       };
       expect(actions.fetchArticleFails()).toEqual(expectedAction);
+    });
+  });
+});
+
+
+describe('Pagination', () => {
+  afterEach = (
+    () => mock.restore()
+  );
+
+  it('should create an action to get articles count', () => {
+    const userData = {
+      email: 'jake@jake.com',
+      password: '@jakejake254',
+    };
+    mock.onGet('https://ah-technocrats.herokuapp.com/api/articles/').replyOnce(200,
+      {
+        user: {
+          token: 'token',
+        },
+      });
+
+    const expectedActions = [
+      {
+        type: types.PAGE,
+        request: userData,
+      },
+      {
+        type: types.FETCH_ARTICLES_FAILS,
+        successfulMessage: {
+          user: {
+            token: 'token',
+          },
+        },
+      },
+    ];
+    const store = mockStore({ userData: {} });
+    store.dispatch(actions.pageData(userData)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+});
+
+describe('Get paginated data', () => {
+  afterEach = (
+    () => mock.restore()
+  );
+
+  it('should create an action to get articles count', () => {
+    const userData = {
+      email: 'jake@jake.com',
+      password: '@jakejake254',
+    };
+    mock.onGet('https://ah-technocrats.herokuapp.com/api/articles/?limit=10&offset=10').replyOnce(200,
+      {
+        user: {
+          token: 'token',
+        },
+      });
+
+    const expectedActions = [
+      {
+        type: types.PAGE,
+        request: userData,
+      },
+      {
+        type: types.FETCH_ARTICLES_FAILS,
+        successfulMessage: {
+          user: {
+            token: 'token',
+          },
+        },
+      },
+    ];
+    const store = mockStore({ userData: {} });
+    store.dispatch(actions.getPage(userData)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
     });
   });
 });

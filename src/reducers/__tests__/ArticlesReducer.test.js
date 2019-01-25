@@ -4,6 +4,7 @@ import articleReducer from '../articleReducer';
 import * as types from '../../actions/actionTypes';
 
 const initialState = {
+  count: 0,
   items: [],
   item: {},
 };
@@ -28,6 +29,7 @@ describe('article reducer', () => {
       payload,
     };
     const expectedState = {
+      count: 0,
       item: {},
       items: payload,
     };
