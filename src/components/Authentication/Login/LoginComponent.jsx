@@ -7,6 +7,7 @@ import logo from '../../../common/ah.logo-square.svg';
 import './login.scss';
 import FormInput from './FormInput';
 import SuccessComponent from './SuccessComponent';
+import SocialLoginComponent from '../SocialLogin/SocialLoginComponent';
 
 const Errors = props => (
   props.field.map(err => (<div className="errorMessage"><small className="error">{err}</small></div>))
@@ -84,11 +85,7 @@ If you forgot your password,
                                 OR
                 </div>
                 <p><small>Use your social accounts to login</small></p>
-                <div className="ui fluid buttons">
-                  <button type="button" className="ui facebook button"><i className="facebook icon" /></button>
-                  <button type="button" className="ui google plus button"><i className="google icon" /></button>
-                  <button type="button" className="ui twitter button"><i className="twitter icon" /></button>
-                </div>
+                <SocialLoginComponent />
               </div>
             </div>
           </div>
