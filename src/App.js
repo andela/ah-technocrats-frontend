@@ -8,7 +8,7 @@ import SearchResultsPage from './components/Search/SearchResultsPage';
 import Error from './components/ErrorHandlers/MissingPageError';
 import ArticleContainer from './components/Articles/ArticlesContainer';
 import LoginContainer from './components/Authentication/Login/LoginContainer';
-
+import ViewSingleArticleComponent from "./container/viewArticleContainer";
 
 class App extends Component {
   render() {
@@ -21,7 +21,7 @@ class App extends Component {
             <Route path="/register" component={RegistrationPage} exact />
             <Route exact path="/login" component={LoginContainer} />
             <Route path="/search" component={SearchResultsPage} exact />
-
+            <Route exact path='/articles/:slug' component={ViewSingleArticleComponent}/>
             <Route component={Error} />
           </Switch>
         </BrowserRouter>
