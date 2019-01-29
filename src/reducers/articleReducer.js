@@ -27,6 +27,8 @@ export default function (state = initialState, action) {
       return { ...state, error: action.error, loading: false };
     case types.CREATE_ARTICLE_SUCCESS:
       return { ...state, item: action.response, createSuccess: true };
+    case types.CREATE_ARTICLE_RESET:
+      return { ...state, createSuccess: false };
     default:
       return state;
   }

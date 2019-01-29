@@ -27,9 +27,9 @@ const SideBarMenu = () => (
     color="green"
     id="sidebar"
   >
-    <MenuItem to="/profile" label="Profile" icon="user" />
+    <MenuItem to="/profile" label="Profile" icon="user outline" />
     <MenuItem to="/articles" label="Articles" icon="clone" />
-    <MenuItem to="/myarticles" label="Mine" icon="plus outline circle" />
+    <MenuItem to="/myarticles" label="Mine" icon="user" />
     <MenuItem to="/new_article" label="Publish" icon="plus circle" />
     <MenuItem to="/profiles/" label="Profiles" icon="users" />
   </Sidebar>

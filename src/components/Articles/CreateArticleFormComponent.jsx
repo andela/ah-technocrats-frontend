@@ -83,6 +83,7 @@ const CreateArticleForm = ({
                     }}
                   />
                 </div>
+                <p>(At least 100 words)</p>
                 <br />
                 <Button
                   disabled={loading || words < 100}

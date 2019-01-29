@@ -13,6 +13,7 @@ import likeReducer from './likeReducer';
 import dislikeReducer from './dislikeReducer';
 import profilesReducer from './profilesReducer';
 import singleProfileReducer from './singleProfileReducer';
+import ratingReducer from './ratingReducer';
 
 const rootReducer = combineReducers({
   registrationReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   likeReducer,
   dislikeReducer,
   singleProfileReducer,
+  ratingReducer,
 });
 
 export default rootReducer;

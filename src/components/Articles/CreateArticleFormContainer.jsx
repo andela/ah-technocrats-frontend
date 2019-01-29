@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 
-import { createArticle } from '../../actions/articleActions';
+import { createArticle, createReset } from '../../actions/articleActions';
 import CreateArticleForm from './CreateArticleFormComponent';
 
 class CreateArticleFormContainer extends Component {
@@ -37,9 +37,11 @@ class CreateArticleFormContainer extends Component {
       },
     };
     // eslint-disable-next-line no-shadow
-    const { createArticle } = this.props;
+    const { createArticle, createReset } = this.props;
     // call create new article action here
-    createArticle(article);
+    createArticle(article).then(() => {
+      createReset();
+    });
   }
 
   handleChange = (value) => {
@@ -98,6 +100,7 @@ CreateArticleFormContainer.propTypes = {
   createSuccess: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   history: PropTypes.func.isRequired,
+  createReset: PropTypes.func.isRequired,
 
 };
 
@@ -106,4 +109,4 @@ const mapStateToProps = state => ({
   loading: state.articles.loading,
 
 });
-export default connect(mapStateToProps, { createArticle })(CreateArticleFormContainer);
+export default connect(mapStateToProps, { createArticle, createReset })(CreateArticleFormContainer);
