@@ -21,6 +21,7 @@ import Footer from '../Footer/Footer';
 import renderActionButtons from './LikeDislikeContainer';
 import { rateArticle } from '../../actions/ratingActions';
 import rateArticleComponent from './ratingArticleComponent';
+import CommentContainer from '../Comments/CommentContainer';
 
 class ViewSingleArticleComponent extends Component {
   constructor() {
@@ -50,11 +51,6 @@ class ViewSingleArticleComponent extends Component {
     rateArticle(payload, token);
   }
 
-  setInitialState(article) {
-    const value = article.article.rating.average;
-    this.state.rating = value;
-  }
-
   renderActionButton = (buttonClass, id, content, iconClass, onClick) => (
     <button type="button" className={buttonClass} id={id} onClick={onClick}>
       <i className={iconClass} />
@@ -74,51 +70,14 @@ class ViewSingleArticleComponent extends Component {
     dislike(match.params.slug);
   }
 
-  renderComment = article => (
-    <div className="comment">
-      {this.renderLink('avatar',
-        <img src="https://semantic-ui.com/images/avatar/large/joe.jpg" alt="" />,
-        `/profile/${article.article.author.username}`)}
-      <div className="content">
-        {this.renderLink('author', 'Joe Henderson',
-          `/profile/${article.article.author.username}`)}
-        <div className="metadata">
-          <span className="date">5 days ago</span>
-        </div>
-        <div className="text">
-            Dude, this is awesome. Thanks so much (
-          {this.renderLink('ui red text',
-            'Edited',
-            `/profile/${article.article.author.username}`)}
-            ) &nbsp;&nbsp;&nbsp;
-          {this.renderLink('',
-            'Edit',
-            `/profile/${article.article.author.username}`)}
-        </div>
-        <div className="actions">
-          {this.renderLink('reply',
-            'Reply',
-            `/profile/${article.article.author.username}`)}
-        </div>
-      </div>
-    </div>
-  );
+  setInitialState(article) {
+    const value = article.article.rating.average;
+    this.state.rating = value;
+  }
 
   renderComments(article) {
     return (
-      <div className="ui space space-bottom comments">
-        <h3 className="ui dividing header">Comments</h3>
-        {this.renderComment(article)}
-        <form className="ui reply form">
-          <div className="field">
-            <textarea />
-          </div>
-          <div className="ui green small labeled submit icon button">
-            <i className="icon edit" />
-              Add Reply
-          </div>
-        </form>
-      </div>
+      <CommentContainer article={article} renderLink={this.renderLink} />
     );
   }
 
