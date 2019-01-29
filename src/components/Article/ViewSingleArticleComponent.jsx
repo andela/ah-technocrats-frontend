@@ -17,10 +17,13 @@ import SideBarMenu from '../Menu/Menu';
 import Header from '../Header/Header';
 import * as likingActions from '../../actions/likeActions';
 import * as dislikeActions from '../../actions/dislikeActions';
-import Footer from '../Footer/Footer';
 import renderActionButtons from './LikeDislikeContainer';
+<<<<<<< HEAD
 import { rateArticle } from '../../actions/ratingActions';
 import rateArticleComponent from './ratingArticleComponent';
+=======
+import Footer from '../Footer/Footer';
+>>>>>>> feat(comments) : article comments
 import CommentContainer from '../Comments/CommentContainer';
 
 class ViewSingleArticleComponent extends Component {
