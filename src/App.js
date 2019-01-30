@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { Route } from 'react-router';
 import { Switch, BrowserRouter } from 'react-router-dom';
-
-import RegistrationPage from './components/Authentication/Registration/RegistrationPage';
-import SearchResultsPage from './components/Search/SearchResultsPage';
+import SearchResultsPageComponent from './components/Search/SearchResultsPage';
 import Error from './components/ErrorHandlers/MissingPageError';
-import ArticleContainer from './components/Articles/ArticlesContainer';
+import ViewSingleArticleComponent from './container/viewArticleContainer';
+import ArticleContainerComponent from './components/Articles/ArticlesContainer';
+import RegistrationPageComponent from './components/Authentication/Registration/RegistrationPage';
 import LoginContainer from './components/Authentication/Login/LoginContainer';
-import ViewSingleArticleComponent from "./container/viewArticleContainer";
+
+import Profile from './containers/ProfileContainer';
 
 class App extends Component {
   render() {
@@ -16,12 +17,13 @@ class App extends Component {
       <React.Fragment>
         <BrowserRouter>
           <Switch>
-            <Route path="/" component={ArticleContainer} exact />
-            <Route path="/articles" component={ArticleContainer} exact />
-            <Route path="/register" component={RegistrationPage} exact />
             <Route exact path="/login" component={LoginContainer} />
-            <Route path="/search" component={SearchResultsPage} exact />
-            <Route exact path='/articles/:slug' component={ViewSingleArticleComponent}/>
+            <Route path="/search" component={SearchResultsPageComponent} exact />
+            <Route exact path="/articles/:slug" component={ViewSingleArticleComponent} />
+            <Route path="/" component={ArticleContainerComponent} exact />
+            <Route path="/articles" component={ArticleContainerComponent} exact />
+            <Route path="/register" component={RegistrationPageComponent} exact />
+            <Route path="/profile" exact component={Profile} />
             <Route component={Error} />
           </Switch>
         </BrowserRouter>

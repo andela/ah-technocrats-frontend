@@ -7,7 +7,7 @@ import {
 import ahLogoWide from './ah-logo-wide.svg';
 import SearchBox from '../Search/SearchBox';
 
-export const toggleSideBar = () => {
+const toggleSideBar = () => {
   const sideBar = document.getElementById('sidebar');
   const pusher = document.getElementById('pusher');
   sideBar.classList.toggle('visible');

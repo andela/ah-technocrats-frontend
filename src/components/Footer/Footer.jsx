@@ -1,4 +1,5 @@
 import React from 'react';
+import './footer.scss';
 import {
   GridColumn, Grid, Divider, Icon,
 } from 'semantic-ui-react';

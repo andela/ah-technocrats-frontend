@@ -4,8 +4,8 @@ import articleReducer from './articleReducer';
 import loginReducer from './loginReducers';
 import searchReducer from './searchReducer';
 import getFetchArticle from './viewArticleReducer';
-
 import socialAuth from './socialAuthReducer';
+import profileDetails from './profileReducer';
 
 const rootReducer = combineReducers({
   registrationReducer,
@@ -14,6 +14,7 @@ const rootReducer = combineReducers({
   socialAuth,
   searchReducer,
   getFetchArticle,
+  profileDetails,
 });
 
 export default rootReducer;

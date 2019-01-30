@@ -6,12 +6,11 @@ import {
   Sidebar,
   Segment,
 } from 'semantic-ui-react';
-
 import { fetchArticles, pageData, getPage } from '../../actions/articleActions';
-import Footer from '../Footer/Footer';
 import SideBarMenu from '../Menu/Menu';
 import AllArticlesComponent from './AllArticlesComponent';
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 export class ArticleContainer extends React.Component {
   constructor() {
