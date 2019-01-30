@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 import ReplyComponent from './ReplyComponent';
-import EditCommentComponent from './EditCommentComponent';
-import * as editCommentActions from '../../actions/editCommentsActions';
 import * as commentActions from '../../actions/commentActions';
 import { formatDates } from '../Articles/SingleArticleComponent';
+import EditCommentComponent from './EditCommentComponent';
+import * as editCommentActions from '../../actions/editCommentsActions';
 import EditReplyComponent from './EditReplyComponent';
 
 
@@ -19,14 +19,25 @@ export class SingleComment extends Component {
     this.renderReplies = this.renderReplies.bind(this);
   }
 
-
   onDelete(commentId) {
-    const { actions } = this.props;
+    const { actions, getCommentsActions } = this.props;
     const url = window.location.href.split('/');
     const slug = url[url.length - 1];
-    actions.deleteComment(slug, commentId);
+    actions.deleteComment(slug, commentId).then(() => {
+      actions.createCommentReset();
+      getCommentsActions.fetchCommentsRequest(slug);
+    });
   }
 
+  deleteReply(commentId, replyId) {
+    const { actions, getCommentsActions } = this.props;
+    const url = window.location.href.split('/');
+    const slug = url[url.length - 1];
+    actions.deleteReply(slug, commentId, replyId).then(() => {
+      actions.createCommentReset();
+      getCommentsActions.fetchCommentsRepliesRequest(slug, commentId);
+    });
+  }
 
   showReplies(commentId) {
     const { article, getCommentsActions } = this.props;
@@ -34,7 +45,7 @@ export class SingleComment extends Component {
   }
 
   toggleReply() {
-    const { showTextArea, showCommentEdit } = this.state;
+    const { showCommentEdit, showTextArea } = this.state;
     if (showCommentEdit) {
       this.setState({ showCommentEdit: false });
     }
@@ -62,7 +73,7 @@ export class SingleComment extends Component {
     const { replyId } = this.state;
     return replies.replies.map(reply => (
       <div>
-        <div className="comment">
+        <div className="comment commentReply">
           {renderLink('avatar',
             <img src={reply.author.avatar} alt="" />,
             `/profile/${reply.author.username}`)}
@@ -81,8 +92,8 @@ export class SingleComment extends Component {
                   <button type="button" className="actions editButton" onClick={() => this.toggleEditReply(reply.id)}>
             Edit
                   </button>
-                  <button type="button" className="actions deleteButton">
-            Delete
+                  <button type="button" className="deleteButton" onClick={() => this.deleteReply(commentId, reply.id)}>
+          Delete
                   </button>
                 </span>
               )
@@ -126,7 +137,7 @@ export class SingleComment extends Component {
                 <button type="button" className="editButton" onClick={() => this.toggleEdit(comment.id)}>
           Edit
                 </button>
-                <button type="button" className="deleteButton">
+                <button type="button" className="deleteButton" onClick={() => this.onDelete(comment.id)}>
           Delete
                 </button>
               </span>
@@ -186,6 +197,7 @@ const mapStateToProps = (state, ownProps) => ({
   replies: state.getCommentsReducer.replies,
   ownProps,
 });
+
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(commentActions, dispatch),

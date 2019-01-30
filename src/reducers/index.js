@@ -15,7 +15,10 @@ import singleProfileReducer from './singleProfileReducer';
 import ratingReducer from './ratingReducer';
 import getCommentsReducer from './getCommentsReducer';
 import commentReducer from './createCommentReducer';
+import editCommentReducer from './editCommentsReducer';
 import replyReducer from './createReplyReducer';
+import deleteCommentsReducer from './deleteCommentsReducer';
+import deleteReplyReducer from './deleteReplyReducer';
 
 const rootReducer = combineReducers({
   registrationReducer,
@@ -35,6 +38,9 @@ const rootReducer = combineReducers({
   commentReducer,
   replyReducer,
   getCommentsReducer,
+  deleteCommentsReducer,
+  deleteReplyReducer,
+  editCommentReducer,
 });
 
 export default rootReducer;

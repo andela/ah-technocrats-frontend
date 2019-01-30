@@ -22,10 +22,13 @@ class EditCommentComponent extends Component {
   }
 
   onSubmit() {
-    const { actions, commentId, getComments } = this.props;
+    const {
+      actions, commentId, getComments,
+    } = this.props;
     const url = window.location.href.split('/');
     const slug = url[url.length - 1];
     actions.editComment(this.formatReply(), slug, commentId).then(() => {
+      actions.editCommentReset();
       getComments.fetchCommentsRequest(slug, commentId);
       this.setState({ body: '' });
     });

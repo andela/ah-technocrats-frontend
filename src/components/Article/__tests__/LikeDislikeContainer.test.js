@@ -28,6 +28,9 @@ describe('ViewSingleArticle  tests', () => {
     getCommentsReducer: {
       comments: { comments: [] },
     },
+    editCommentReducer: {
+      error: '',
+    },
   });
   const article = {
     message: 'Article found.',

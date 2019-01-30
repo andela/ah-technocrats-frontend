@@ -28,6 +28,7 @@ class EditReplyComponent extends Component {
     const url = window.location.href.split('/');
     const slug = url[url.length - 1];
     actions.editReply(this.formatReply(), slug, commentId, replyId).then(() => {
+      actions.editCommentReset();
       getComments.fetchCommentsRepliesRequest(slug, commentId);
       this.setState({ body: '' });
     });

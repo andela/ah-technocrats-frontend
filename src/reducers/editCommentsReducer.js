@@ -7,13 +7,15 @@ const initialState = [{
 }];
 
 
-export default function createCommentReducer(state = initialState, action) {
+export default function editCommentReducer(state = initialState, action) {
   switch (action.type) {
     case types.EDIT_COMMENT_SUBMIT:
       return { ...state, action: action.commentData, loading: true };
 
     case types.EDIT_COMMENTS_FAIL:
       return { ...state, error: action.error, loading: false };
+    case types.EDIT_COMMENT_RESET:
+      return { ...state, error: null, loading: false };
 
     case types.EDIT_COMMENTS_SUCCESS:
       return {

@@ -12,6 +12,10 @@ export const createCommentFail = error => ({
   error,
 });
 
+export const createCommentReset = () => ({
+  type: types.CREATE_COMMENTS_RESET,
+});
+
 
 export const articleCommentSubmit = commentData => ({
   type: types.ARTICLE_COMMENT_SUBMIT,
@@ -48,6 +52,19 @@ export const deleteCommentFail = error => ({
   error,
 });
 
+export const deleteReplySubmit = () => ({
+  type: types.DELETE_REPLY_SUBMIT,
+});
+
+export const deleteReplySuccess = reply => ({
+  type: types.DELETE_REPLY_SUCCESS,
+  reply,
+});
+
+export const deleteReplyFail = error => ({
+  type: types.DELETE_REPLY_FAIL,
+  error,
+});
 
 export const postComment = (commentData, slug) => (dispatch) => {
   dispatch(articleCommentSubmit(commentData));
@@ -61,7 +78,9 @@ export const postComment = (commentData, slug) => (dispatch) => {
       dispatch(createCommentSuccess(res.data.message));
     })
     .catch((error) => {
-      dispatch(createCommentFail(error.response.data.errors));
+      if (error.response.status === 403) {
+        dispatch(createCommentFail(error.response.data));
+      }
     });
 };
 
@@ -77,12 +96,14 @@ export const postReply = (replyData, slug, commentId) => (dispatch) => {
       dispatch(createReplySuccess(res.data.message));
     })
     .catch((error) => {
-      dispatch(createReplyFail(error.response.data.errors));
+      if (error.response.status === 403) {
+        dispatch(createCommentFail(error.response.data));
+      }
     });
 };
 
 export const deleteComment = (slug, commentId) => (dispatch) => {
-  dispatch(commentReplySubmit());
+  dispatch(deleteCommentSubmit());
   const token = Cookies.get('access_token');
   return Axios.delete(`https://ah-technocrats.herokuapp.com/api/articles/${slug}/comments/${commentId}/`, {
     headers: {
@@ -93,6 +114,26 @@ export const deleteComment = (slug, commentId) => (dispatch) => {
       dispatch(deleteCommentSuccess(res.data.message));
     })
     .catch((error) => {
-      dispatch(deleteCommentFail(error.response.data.errors));
+      if (error.response.status === 403) {
+        dispatch(createCommentFail(error.response.data));
+      }
+    });
+};
+
+export const deleteReply = (slug, commentId, replyId) => (dispatch) => {
+  dispatch(deleteReplySubmit());
+  const token = Cookies.get('access_token');
+  return Axios.delete(`https://ah-technocrats.herokuapp.com/api/articles/${slug}/comments/${commentId}/replies/${replyId}/`, {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  })
+    .then((res) => {
+      dispatch(deleteReplySuccess(res.data.message));
+    })
+    .catch((error) => {
+      if (error.response.status === 403) {
+        dispatch(createCommentFail(error.response.data));
+      }
     });
 };

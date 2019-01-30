@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Loader, Segment, Sidebar } from 'semantic-ui-react';
+import {
+  Loader, Rating, Segment, Sidebar,
+} from 'semantic-ui-react';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import '../ResetPassword/resetpassword.scss';
 import './viewsinglearticle.scss';
@@ -12,7 +15,6 @@ import {
   WhatsappShareButton,
   EmailShareButton, FacebookIcon, WhatsappIcon, TwitterIcon, GooglePlusIcon, EmailIcon,
 } from 'react-share';
-import Cookies from 'js-cookie';
 import SideBarMenu from '../Menu/Menu';
 import Header from '../Header/Header';
 import * as likingActions from '../../actions/likeActions';
@@ -76,9 +78,9 @@ class ViewSingleArticleComponent extends Component {
     this.state.rating = value;
   }
 
-  renderComments(article) {
+  renderComments(article, history) {
     return (
-      <CommentContainer article={article} renderLink={this.renderLink} />
+      <CommentContainer article={article} renderLink={this.renderLink} history={history} />
     );
   }
 
@@ -242,7 +244,7 @@ ${window.location.href}`,
           {this.renderCenteredGrid(article)}
           {this.renderUiGrid(article)}
           {this.renderTagSpace()}
-          {this.renderComments(article)}
+          {this.renderComments(article, history)}
           {this.setInitialState(article)}
         </div>
       </div>

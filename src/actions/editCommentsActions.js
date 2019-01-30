@@ -12,6 +12,10 @@ export const editCommentFail = error => ({
   error,
 });
 
+export const editCommentReset = error => ({
+  type: types.EDIT_COMMENT_RESET,
+  error,
+});
 
 export const editCommentSubmit = commentData => ({
   type: types.EDIT_COMMENT_SUBMIT,
@@ -46,7 +50,9 @@ export const editComment = (commentData, slug, commentId) => (dispatch) => {
       dispatch(editCommentSuccess(res.data.message));
     })
     .catch((error) => {
-      dispatch(editCommentFail(error.response.data.errors));
+      if (error.response.status === 403) {
+        dispatch(editCommentFail(error.response.status));
+      }
     });
 };
 
@@ -62,6 +68,8 @@ export const editReply = (replyData, slug, commentId, replyId) => (dispatch) => 
       dispatch(editReplySuccess(res.data.message));
     })
     .catch((error) => {
-      dispatch(editReplyFail(error.response.data.errors));
+      if (error.response.status === 403) {
+        dispatch(editCommentFail(error.response.status));
+      }
     });
 };

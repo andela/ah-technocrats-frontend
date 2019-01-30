@@ -25,6 +25,7 @@ class ReplyComponent extends Component {
     const url = window.location.href.split('/');
     const slug = url[url.length - 1];
     actions.postReply(this.formatReply(), slug, commentId).then(() => {
+      actions.createCommentReset();
       getReplies.fetchCommentsRepliesRequest(slug, commentId);
       this.setState({ body: '' });
     });
@@ -51,16 +52,14 @@ class ReplyComponent extends Component {
             value={body}
           />
         </div>
-        {body
-          ? (
-            <button type="button" labelPosition="left" icon="edit" className="ui primary button" onClick={this.onSubmit}>
-              <i className="edit icon" />
+        {body.trim() !== '' ? (
+          <button type="button" labelPosition="left" icon="edit" className="ui primary button" onClick={this.onSubmit}>
+            <i className="edit icon" />
             Add Reply
-              {' '}
-            </button>
-          ) : null}
+            {' '}
+          </button>
+        ) : null}
       </form>
-
     );
   }
 }
