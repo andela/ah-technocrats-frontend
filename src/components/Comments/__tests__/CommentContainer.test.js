@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import CommentContainer from '../CommentContainer';
+import { CommentContainerClass } from '../CommentContainer';
 
 
 function setup() {
@@ -10,8 +10,9 @@ function setup() {
       title: '',
       body: '',
     },
+    renderLink: jest.fn(),
   };
-  return shallow(<CommentContainer {...props} />);
+  return shallow(<CommentContainerClass {...props} />);
 }
 
 describe('it renders the comment container component', () => {

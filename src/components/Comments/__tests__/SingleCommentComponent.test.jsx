@@ -1,23 +1,30 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import SingleCommentComponent from '../SingleCommentComponent';
+import { SingleComment } from '../SingleCommentComponent';
 
 
 function setup() {
   const props = {
     article: {
       article: {
-        author: { username: ''},
+        author: { username: '' },
         title: '',
         body: '',
       },
-
     },
-
+    comment: {
+      author: '',
+      body: '',
+      avatar: '',
+    },
     renderLink: jest.fn(),
-
+    replies: {
+      replies: [],
+      parentId: '',
+    },
   };
-  return shallow(<SingleCommentComponent {...props} />);
+  
+  return shallow(<SingleComment {...props} />);
 }
 
 describe('it renders the comment container component', () => {

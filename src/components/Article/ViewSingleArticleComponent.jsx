@@ -18,12 +18,9 @@ import Header from '../Header/Header';
 import * as likingActions from '../../actions/likeActions';
 import * as dislikeActions from '../../actions/dislikeActions';
 import renderActionButtons from './LikeDislikeContainer';
-<<<<<<< HEAD
 import { rateArticle } from '../../actions/ratingActions';
 import rateArticleComponent from './ratingArticleComponent';
-=======
 import Footer from '../Footer/Footer';
->>>>>>> feat(comments) : article comments
 import CommentContainer from '../Comments/CommentContainer';
 
 class ViewSingleArticleComponent extends Component {
@@ -36,9 +33,10 @@ class ViewSingleArticleComponent extends Component {
   }
 
   componentDidMount() {
-    const { getArticle } = this.props;
-    const { match } = this.props;
-    getArticle(match.params.slug);
+    const { getArticle, getComments, match } = this.props;
+    getArticle(match.params.slug).then(() => {
+      getComments(match.params.slug);
+    });
   }
 
   // rating
@@ -289,6 +287,7 @@ ViewSingleArticleComponent.propTypes = {
   rateArticle: PropTypes.func.isRequired,
   ratingReset: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
+  getComments: PropTypes.func,
   article: PropTypes.shape().isRequired,
   dislike: PropTypes.shape().isRequired,
   like: PropTypes.func.isRequired,
@@ -303,6 +302,7 @@ ViewSingleArticleComponent.propTypes = {
 
 ViewSingleArticleComponent.defaultProps = {
   history: null,
+  getComments: null,
 };
 
 const matchDispatchToProps = dispatch => (

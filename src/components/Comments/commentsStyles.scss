@@ -1,0 +1,30 @@
+.commentButton {
+    padding-right: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: grey;
+}
+
+.deleteButton {
+    padding-left: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: rgb(211, 93, 93);
+}
+.editButton {
+    padding-left: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: rgb(102, 194, 255);
+    }
+
+.commentTextBox {
+    padding-top: 7px;
+}
+
+.commentsContainer {
+    margin-bottom: 30px !important;
+}
