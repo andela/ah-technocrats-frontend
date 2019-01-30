@@ -5,6 +5,12 @@ $menu_color: rgba(0,0,0,.87);
   margin: 0 auto;
 }
 
+.logo {
+	width: 300px;
+    margin: 0 450px;
+    padding-left: 20px;
+}
+
 .menu-icon {
 	align-items: center;
 	display: flex;
@@ -33,12 +39,6 @@ $menu_color: rgba(0,0,0,.87);
 	}
 }
 
-.image {
-  width: 300px;
-  margin: 0 450px;
-  padding-left:20px;
-  
-}
 
 .searchBox {
 	padding: 20px

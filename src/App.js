@@ -12,8 +12,8 @@ import SearchResultsPageContainer from './components/Search/SearchResultsPage';
 import UserSpecificArticlesContainer from './components/Articles/UserSpecificArticlesContainer';
 import IsAuthenticated from './common/IsAuthenticated';
 import UpdateContainer from './components/Articles/UpdateContainer';
-
-
+import ProfilesContainer from './containers/ProfilesContainer';
+import SingleProfileContainer from './containers/SingleProfileContainer';
 import CreateArticleFormContainer from './components/Articles/CreateArticleFormContainer';
 
 class App extends Component {
@@ -32,6 +32,8 @@ class App extends Component {
             <IsAuthenticated exact path="/myarticles" component={UserSpecificArticlesContainer} />
             <IsAuthenticated path="/new_article" component={CreateArticleFormContainer} exact />
             <Route path="/myarticles/:article_slug" component={UpdateContainer} exact />
+            <IsAuthenticated exact path="/profiles" component={ProfilesContainer} />
+            <IsAuthenticated exact path="/profiles/:profile" component={SingleProfileContainer} />
             <Route component={Error} />
           </Switch>
         </BrowserRouter>

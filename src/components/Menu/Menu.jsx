@@ -31,6 +31,7 @@ const SideBarMenu = () => (
     <MenuItem to="/articles" label="Articles" icon="clone" />
     <MenuItem to="/myarticles" label="Mine" icon="plus outline circle" />
     <MenuItem to="/new_article" label="Publish" icon="plus circle" />
+    <MenuItem to="/profiles/" label="Profiles" icon="users" />
   </Sidebar>
 
 );

@@ -13,9 +13,9 @@ import {
   WhatsappShareButton,
   EmailShareButton, FacebookIcon, WhatsappIcon, TwitterIcon, GooglePlusIcon, EmailIcon,
 } from 'react-share';
+import { connect } from 'react-redux';
 import SideBarMenu from '../Menu/Menu';
 import Header from '../Header/Header';
-import { connect } from 'react-redux';
 import * as likingActions from '../../actions/likeActions';
 import * as dislikeActions from '../../actions/dislikeActions';
 import Footer from '../Footer/Footer';
@@ -116,8 +116,9 @@ class ViewSingleArticleComponent extends Component {
                 <div className="middle aligned content">
                     Written by:
                   {' '}
-                  {this.renderLink('', article.article.author.username,
-                    `/profile/${article.article.author.username}`)}
+                  {this.renderLink('',
+                    article.article.author.username,
+                    `/profiles/${article.article.author.username}`)}
                 </div>
               </div>
             </div>
@@ -161,34 +162,40 @@ class ViewSingleArticleComponent extends Component {
   renderShareButtons = (url, article) => {
     const snippet = `${article.article.title}
 ${article.article.description}`;
-        return <>
+    return (
+      <>
         {
           this.renderShareButton(FacebookShareButton,
-              FacebookIcon,
-              {url, quote: snippet})
+            FacebookIcon,
+            { url, quote: snippet })
         }
-    {
+        {
       this.renderShareButton(TwitterShareButton,
-          TwitterIcon,
-          {url, title: snippet, hashtags:['AuthorsHaven', 'Technocrats']})
+        TwitterIcon,
+        { url, title: snippet, hashtags: ['AuthorsHaven', 'Technocrats'] })
     }
-    {
+        {
       this.renderShareButton(WhatsappShareButton,
-          WhatsappIcon,
-          {url, title: snippet})
+        WhatsappIcon,
+        { url, title: snippet })
     }
-    {
+        {
       this.renderShareButton(GooglePlusShareButton,
-          GooglePlusIcon,
-          {url, title: snippet})
+        GooglePlusIcon,
+        { url, title: snippet })
     }
-    {
+        {
       this.renderShareButton(EmailShareButton,
-          EmailIcon,
-          {url, subject: article.article.title, body:`${article.article.description}
-${window.location.href}`})
+        EmailIcon,
+        {
+          url,
+          subject: article.article.title,
+          body: `${article.article.description}
+${window.location.href}`,
+        })
     }
-  </>
+      </>
+    );
   };
 
   renderTagSpace() {
