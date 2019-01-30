@@ -15,8 +15,11 @@ import {
 } from 'react-share';
 import SideBarMenu from '../Menu/Menu';
 import Header from '../Header/Header';
-
+import { connect } from 'react-redux';
+import * as likingActions from '../../actions/likeActions';
+import * as dislikeActions from '../../actions/dislikeActions';
 import Footer from '../Footer/Footer';
+import renderActionButtons from './LikeDislikeContainer';
 
 class ViewSingleArticleComponent extends Component {
   componentDidMount() {
@@ -25,8 +28,8 @@ class ViewSingleArticleComponent extends Component {
     getArticle(match.params.slug);
   }
 
-  renderActionButton = (buttonClass, content, iconClass) => (
-    <button type="button" className={buttonClass}>
+  renderActionButton = (buttonClass, id, content, iconClass, onClick) => (
+    <button type="button" className={buttonClass} id={id} onClick={onClick}>
       <i className={iconClass} />
       <span>
         {' '}
@@ -35,31 +38,14 @@ class ViewSingleArticleComponent extends Component {
     </button>
   );
 
-  renderActionButtons(article) {
-    return (
-      <div className=" ui right floated column inline" style={{ display: 'contents' }}>
-        {this.renderActionButton(
-          'ui tiny toggle circular green button',
-          `Like   ${article.article.like.likeCount}`,
-          'thumbs up icon',
-        )}
-        {this.renderActionButton(
-          'ui tiny toggle circular red button',
-          `Dislike   ${article.article.dislike.dislikeCount}`,
-          'thumbs down icon',
-        )}
-        {this.renderActionButton('ui tiny circular yellow button', 'Favorite', 'star icon')}
-        {this.renderActionButton('ui tiny circular yellow button', 'Bookmark', 'bookmark icon')}
-        {this.renderLink(
-          '',
-          this.renderActionButton(
-            'ui tiny circular blue icon button',
-            'Report',
-            'eye icon',
-          ), `/report/${article.article.article_slug}`,
-        )}
-      </div>
-    );
+  likeArticle = () => {
+    const { like, match } = this.props;
+    like(match.params.slug);
+  }
+
+  dislikeArticle = () => {
+    const { match, dislike } = this.props;
+    dislike(match.params.slug);
   }
 
   renderComment = article => (
@@ -130,15 +116,15 @@ class ViewSingleArticleComponent extends Component {
                 <div className="middle aligned content">
                     Written by:
                   {' '}
-                  {this.renderLink('',
-                    article.article.author.username,
+                  {this.renderLink('', article.article.author.username,
                     `/profile/${article.article.author.username}`)}
                 </div>
               </div>
             </div>
 
           </div>
-          {this.renderActionButtons(article)}
+          {renderActionButtons(article,
+            this.likeArticle, this.dislikeArticle, this.renderActionButton, this.renderLink)}
         </div>
         <div>
           <br />
@@ -317,6 +303,8 @@ ${window.location.href}`})
 ViewSingleArticleComponent.propTypes = {
   getArticle: PropTypes.func.isRequired,
   article: PropTypes.shape().isRequired,
+  dislike: PropTypes.shape().isRequired,
+  like: PropTypes.func.isRequired,
   reason: PropTypes.string.isRequired,
   success: PropTypes.bool.isRequired,
   processing: PropTypes.bool.isRequired,
@@ -327,4 +315,24 @@ ViewSingleArticleComponent.propTypes = {
 ViewSingleArticleComponent.defaultProps = {
   history: null,
 };
-export default ViewSingleArticleComponent;
+
+const matchDispatchToProps = dispatch => (
+  {
+    like: slug => (
+      dispatch(likingActions.likeAction(slug))
+    ),
+    dislike: slug => (
+      dispatch(dislikeActions.dislikeArticle(slug))
+    ),
+  }
+);
+
+function mapStateToProps(state) {
+  return {
+    likeReducer: state.likeReducer,
+    dislikeReducer: state.dislikeReducer,
+
+  };
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(ViewSingleArticleComponent);
