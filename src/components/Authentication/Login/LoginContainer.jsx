@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import { Redirect } from 'react-router-dom';
 import * as loginActions from '../../../actions/loginActions';
 import LoginComponent from './LoginComponent';
 import './login.scss';
@@ -35,8 +36,11 @@ class LoginContainer extends React.Component {
   }
 
   redirect() {
-    const { router } = this.context;
-    router.push('/articles');
+    const {
+      location,
+    } = this.props;
+    const { from } = location.state || { from: { pathname: '/articles' } };
+    return <Redirect to={from} />;
   }
 
   render() {
@@ -63,6 +67,7 @@ LoginContainer.propTypes = {
   error: PropTypes.shape().isRequired,
   success: PropTypes.bool,
   loading: PropTypes.bool.isRequired,
+  location: PropTypes.shape().isRequired,
 };
 
 LoginContainer.defaultProps = { success: null };

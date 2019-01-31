@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import 'react-semantic-toasts/styles/react-semantic-alert.css';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../../../common/ah.logo-square.svg';
 import './login.scss';
 import FormInput from './FormInput';
@@ -18,6 +18,7 @@ const LoginComponent = ({
   onChange,
   error,
   loading,
+  redirect,
   success,
 }) => (
 
@@ -32,7 +33,7 @@ const LoginComponent = ({
             <div className="ui ten wide column">
 
               <SuccessComponent success={success} />
-              { success ? <Redirect to="/articles" /> : null }
+              { success ? redirect() : null }
 
               <div className="ui center aligned basic segment">
                 <h3>
@@ -100,6 +101,7 @@ LoginComponent.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.shape().isRequired,
   success: PropTypes.bool,
+  redirect: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
