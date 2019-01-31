@@ -8,7 +8,7 @@ let number;
 const AllArticlesComponent = ({
   articles, pagination, getNewPage,
 }) => (
-  <Container>
+  <Container className="allArticles">
     <div className="space">
       <div className="ui header medium">
         Latest Articles

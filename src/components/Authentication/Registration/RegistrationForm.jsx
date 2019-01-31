@@ -23,7 +23,7 @@ const RegistrationForm = ({
     <Grid centered>
       <GridColumn className="ui form-display-area ten wide column segment">
         <div className="ui grid column">
-          <img className="login-image" src={logo} alt="Authors Haven Logo" />
+          <img className="signupimage" src={logo} alt="Authors Haven Logo" />
         </div>
         <div className="ui">
           <div className="ui column centered grid">

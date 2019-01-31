@@ -5,7 +5,6 @@ import AllArticlesComponent from '../AllArticlesComponent';
 import { ArticleContainer } from '../ArticlesContainer';
 import SingleArticleComponent from '../SingleArticleComponent';
 
-
 Enzyme.configure({ adapter: new Adapter() });
 
 const article = {

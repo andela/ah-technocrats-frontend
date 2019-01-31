@@ -51,37 +51,30 @@ const dummyData = {
   },
 };
 
-const articlesArray = [
-  {
-    id: 1,
-    title: 'How to train your dragon3',
-    description: 'Ever wonder how?',
-    body: 'You have to believe',
-    author: {
-      username: 'Jacob',
-      email: 'jake@jake.jake',
-      created_at: '2019-01-16T11:22:08.569092Z',
-      bio: '',
-      country: '',
-      avatar: 'https://libertv.com/wp-content/uploads/2018/03/user-avatar-placeholder-1.png',
-      phone: '',
-      website: '',
+const articlesArray = dummyData.results.articles;
+
+const articleData = {
+  title: 'Hello World',
+  description: 'Hello world',
+  body: 'Kenya',
+  author: 'Author',
+};
+
+const createExpectedRes = {
+  token: 'ertyuiop[poihgfdsxcvbnjmnbvcvbn',
+  message: "The article 'Hello hello' has been successfully created.",
+};
+const errorExpectedRes = {
+  token: 'ertyuiop[poihgfdsxcvbnjmnbvcvbn',
+  response: {
+    data: {
+      detail: {
+        message: "The article 'Hello hello' has been successfully created.",
+      },
     },
-    tags: [],
-    like: {
-      likeCount: 0,
-    },
-    dislike: {
-      dislikeCount: 0,
-    },
-    rating: 0,
-    image: '',
-    article_slug: 'how-to-train-your-dragon3',
-    created_at: '2019-01-16T11:22:39.439567Z',
-    updated_at: '2019-01-16T11:22:39.439615Z',
-    favorite: [],
   },
-];
+};
+
 describe('getArticles actions', () => {
   beforeEach(() => {
     moxios.install();
@@ -104,6 +97,24 @@ describe('getArticles actions', () => {
     ];
     const store = mockStore(dummyData);
     return store.dispatch(actions.fetchArticles()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+  it('creates CREATE_ARTICLES_SUCCESS after successfully creating an article', () => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 201,
+        response: createExpectedRes,
+      });
+    });
+    const message = "The article 'Hello hello' has been successfully created.";
+    const expectedActions = [
+      { type: types.CREATE_ARTICLE, articleData },
+      { type: types.CREATE_ARTICLE_SUCCESS, response: message },
+    ];
+    const store = mockStore(message);
+    return store.dispatch(actions.createArticle(articleData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -134,7 +145,6 @@ describe('Article Actions types', () => {
     });
   });
 });
-
 
 describe('Pagination', () => {
   afterEach = (
@@ -208,6 +218,34 @@ describe('Get paginated data', () => {
     const store = mockStore({ userData: {} });
     store.dispatch(actions.getPage(userData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+});
+describe('Article creation Actions types', () => {
+  describe('dispatch create', () => {
+    it('should create a request action', () => {
+      const expectedAction = {
+        type: types.CREATE_ARTICLE,
+
+      };
+      expect(actions.create()).toEqual(expectedAction);
+    });
+
+    it('should create a success create action', () => {
+      const expectedAction = {
+        type: types.CREATE_ARTICLE_SUCCESS,
+        response: articleData,
+      };
+      expect(actions.createSuccess(articleData)).toEqual(expectedAction);
+    });
+
+    it('should create a fail create action', () => {
+      const message = 'error';
+      const expectedAction = {
+        type: types.CREATE_ARTICLE_FAILS,
+        error: message,
+      };
+      expect(actions.createFail(message)).toEqual(expectedAction);
     });
   });
 });
