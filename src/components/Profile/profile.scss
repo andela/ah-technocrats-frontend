@@ -8,7 +8,9 @@ $color_1: black;
 .bottom-padding {
 	padding-bottom: 15px;
 }
-
+.username {
+	text-transform: capitalize !important;
+}
 
 #edit-profile {
 	cursor: pointer;

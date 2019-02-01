@@ -11,6 +11,8 @@ import socialAuth from './socialAuthReducer';
 import profileDetails from './profileReducer';
 import likeReducer from './likeReducer';
 import dislikeReducer from './dislikeReducer';
+import profilesReducer from './profilesReducer';
+import singleProfileReducer from './singleProfileReducer';
 
 const rootReducer = combineReducers({
   registrationReducer,
@@ -19,12 +21,13 @@ const rootReducer = combineReducers({
   loginReducer,
   socialAuth,
   searchReducer,
+  profilesReducer,
   getFetchArticle,
   profileDetails,
   updateArticlesReducer,
-
   likeReducer,
   dislikeReducer,
+  singleProfileReducer,
 });
 
 export default rootReducer;
