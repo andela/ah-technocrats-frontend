@@ -23,6 +23,7 @@ export class ArticleContainer extends React.Component {
     const { fetchAllArticles, fetchpageData } = this.props;
     fetchAllArticles();
     fetchpageData();
+    document.title = 'Authors Haven';
   }
 
 
@@ -30,6 +31,7 @@ export class ArticleContainer extends React.Component {
     const {
       articles, history, pagination, getNewPage,
     } = this.props;
+
     return (
       <React.Fragment>
         <Header history={history} />

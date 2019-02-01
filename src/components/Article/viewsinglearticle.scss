@@ -1,0 +1,16 @@
+div .SocialMediaShareButton{
+    display: inline-block;
+    cursor: pointer;
+    outline: none!important;
+    margin-left: 10px!important;
+    opacity: .9;
+    -webkit-transition: opacity .3s ease-in-out;
+    -moz-transition: opacity .3s ease-in-out;
+    -ms-transition: opacity .3s ease-in-out;
+    -o-transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out;
+}
+
+div .SocialMediaShareButton:hover{
+    opacity: 1;
+}

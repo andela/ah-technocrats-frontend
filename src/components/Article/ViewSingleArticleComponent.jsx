@@ -3,10 +3,18 @@ import {
   Loader, Rating, Segment, Sidebar,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import '../ResetPassword/resetpassword.scss';
+import './viewsinglearticle.scss';
 import PropTypes from 'prop-types';
+import {
+  FacebookShareButton,
+  GooglePlusShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton, FacebookIcon, WhatsappIcon, TwitterIcon, GooglePlusIcon, EmailIcon,
+} from 'react-share';
 import SideBarMenu from '../Menu/Menu';
 import Header from '../Header/Header';
-
 
 import Footer from '../Footer/Footer';
 
@@ -132,6 +140,16 @@ class ViewSingleArticleComponent extends Component {
           </div>
           {this.renderActionButtons(article)}
         </div>
+        <div>
+          <br />
+          <div style={{ clear: 'both' }}>
+            <h4>Share article:</h4>
+          </div>
+          <br />
+          <div>
+            {this.renderShareButtons(window.location.href, article)}
+          </div>
+        </div>
       </div>
     );
   }
@@ -146,11 +164,54 @@ class ViewSingleArticleComponent extends Component {
     </div>
   );
 
+  renderShareButton = (ButtonToShare, ButtonIcon, props) => (
+    <>
+      <ButtonToShare className="share-button" {...props}>
+        <ButtonIcon size={32} round />
+      </ButtonToShare>
+    </>
+  );
+
+  renderShareButtons = (url, article) => {
+    const snippet = `${article.article.title}
+${article.article.description}`;
+        return <>
+        {
+          this.renderShareButton(FacebookShareButton,
+              FacebookIcon,
+              {url, quote: snippet})
+        }
+    {
+      this.renderShareButton(TwitterShareButton,
+          TwitterIcon,
+          {url, title: snippet, hashtags:['AuthorsHaven', 'Technocrats']})
+    }
+    {
+      this.renderShareButton(WhatsappShareButton,
+          WhatsappIcon,
+          {url, title: snippet})
+    }
+    {
+      this.renderShareButton(GooglePlusShareButton,
+          GooglePlusIcon,
+          {url, title: snippet})
+    }
+    {
+      this.renderShareButton(EmailShareButton,
+          EmailIcon,
+          {url, subject: article.article.title, body:`${article.article.description}
+${window.location.href}`})
+    }
+  </>
+  };
+
   renderTagSpace() {
     return (
       <div className="tag space">
           Tags:
-        {this.renderLink('ui tag label red', 'New', '/articles/?tag=new')}
+        {this.renderLink('ui tag label', 'New', '/articles/?tag=new')}
+        {this.renderLink('ui tag label red', 'Upcoming', '/articles/?tag=upcoming')}
+        {this.renderLink('ui tag label teal', 'Featured', '/articles/?tag=featured')}
       </div>
     );
   }
@@ -230,6 +291,7 @@ class ViewSingleArticleComponent extends Component {
     const {
       processing, article, success, reason, history,
     } = this.props;
+    document.title = success ? article.article.title : '';
     return (
       <React.Fragment>
         <Header history={history} />
@@ -260,6 +322,7 @@ ViewSingleArticleComponent.propTypes = {
   processing: PropTypes.bool.isRequired,
   match: PropTypes.shape().isRequired,
   history: PropTypes.shape(),
+  url: PropTypes.string.isRequired,
 };
 ViewSingleArticleComponent.defaultProps = {
   history: null,
