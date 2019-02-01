@@ -9,6 +9,8 @@ import updateArticlesReducer from './updateArticlesReducer';
 
 import socialAuth from './socialAuthReducer';
 import profileDetails from './profileReducer';
+import likeReducer from './likeReducer';
+import dislikeReducer from './dislikeReducer';
 
 const rootReducer = combineReducers({
   registrationReducer,
@@ -21,6 +23,8 @@ const rootReducer = combineReducers({
   profileDetails,
   updateArticlesReducer,
 
+  likeReducer,
+  dislikeReducer,
 });
 
 export default rootReducer;

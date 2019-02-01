@@ -40,3 +40,5 @@ export const fetchArticle = slug => (dispatch) => {
     dispatch(articleGetSuccess(false));
   });
 };
+
+export default fetchArticle;
