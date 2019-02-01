@@ -2,46 +2,50 @@
 import React from 'react';
 import './Articles.scss';
 import propTypes from 'prop-types';
-import { Modal, Button, Icon } from 'semantic-ui-react';
 import Moment from 'react-moment';
+import EditButton from './EditArticleContainer';
 
 const UserSpecificArticleComponent = (props) => {
   const {
-    article_slug: articleSlug, onDelete, modalOpen, openModal, name, setName,
+    article_slug: articleSlug, history, body, onDelete, modalOpen, openModal, name, setName,
   } = props;
+  const editArticle = (e) => {
+    const parentArticle = e.target.parentElement.parentElement.parentElement;
+    const articleDesc = parentArticle.querySelector('.excerpt').innerHTML;
+    const articleTitle = parentArticle.querySelector('.header').innerHTML;
+
+    localStorage.setItem('description', articleDesc);
+    localStorage.setItem('title', articleTitle);
+    localStorage.setItem('body', body);
+    history.push(`/myarticles/${articleSlug}`);
+  };
   return (
     <div className="item">
       <Details {...props} />
       <div className="right float">
-        <Modal
-          trigger={(
-            <Icon name="trash" id="open-modal" className="delete-icon" color="red" onClick={() => { setName(articleSlug); openModal(); }} />
-            )}
-          size="tiny"
-          open={modalOpen}
-        >
-          <Modal.Header>Delete Your Article</Modal.Header>
-          <Modal.Content><p>Are you sure you want to delete this article</p></Modal.Content>
-          <Modal.Actions>
-            <Button positive id="cancel-delete" onClick={() => onDelete(null, false)}>Cancel</Button>
-            <Button negative id="confirm-delete" onClick={() => { onDelete(name, true); }}>Delete</Button>
-          </Modal.Actions>
-        </Modal>
-        <Buttons />
+        <EditButton setName={setName} articleSlug={articleSlug} openModal={openModal} modalOpen={modalOpen} onDelete={onDelete} name={name} />
+        <Buttons editArticle={editArticle} />
       </div>
     </div>
   );
 };
 
-const Buttons = () => (
-  <React.Fragment>
+const Buttons = (props) => {
+  const { editArticle } = props;
+  return (
+    <React.Fragment>
      &nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="editarticle"><i className="icon green edit outline" /></a>
+      <button onClick={editArticle} className="edit-button" type="button" id="submit"><i className="icon green edit outline " /></button>
           &nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="progile"><i className="icon green chart line" /></a>
+      <a href="progile"><i className="icon green chart line" /></a>
           &nbsp;&nbsp;&nbsp;&nbsp;
-  </React.Fragment>
-);
+    </React.Fragment>
+  );
+};
+
+Buttons.propTypes = {
+  editArticle: propTypes.func.isRequired,
+};
 
 UserSpecificArticleComponent.propTypes = {
   article_slug: propTypes.string.isRequired,

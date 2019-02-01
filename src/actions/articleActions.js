@@ -76,8 +76,8 @@ export function getPage(page) {
       .catch(errorMessage => dispatch(fetchArticleFails(errorMessage)));
   };
 }
-const token = Cookies.get('access_token');
 
+const token = Cookies.get('access_token');
 export const createArticle = articleData => (dispatch) => {
   dispatch(create(articleData));
   return axios.post('https://ah-technocrats.herokuapp.com/api/articles/', articleData, {

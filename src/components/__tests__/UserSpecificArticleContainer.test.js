@@ -26,10 +26,16 @@ describe('UserSpecifc Container', () => {
         deleteFailed: {},
         fetchOwnArticlesFailed: false,
       },
+      updateArticlesReducer: {
+        updated: {},
+      },
     });
+
     const props = {
       fetchArticles: jest.fn(),
       onDelete: jest.fn(),
+      updated: {
+      },
     };
     mountWrapper = mount(
       <BrowserRouter>
@@ -42,8 +48,6 @@ describe('UserSpecifc Container', () => {
   describe('it should render correctly', () => {
     it('should render itself and children correctly', () => {
       expect(shallowWrapper.exists()).toEqual(true);
-      expect(mountWrapper.exists()).toEqual(true);
-      expect(mountWrapper).toMatchSnapshot();
     });
   });
 });

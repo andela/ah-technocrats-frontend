@@ -29,7 +29,7 @@ const SideBarMenu = () => (
   >
     <MenuItem to="/profile" label="Profile" icon="user" />
     <MenuItem to="/articles" label="Articles" icon="clone" />
-    <MenuItem to="/myarticles" label="Mine" icon="user" />
+    <MenuItem to="/myarticles" label="Mine" icon="plus outline circle" />
     <MenuItem to="profile" label="Profile" icon="user" />
     <MenuItem to="articles" label="Articles" icon="clone" />
     <MenuItem to="new_article" label="Publish" icon="plus circle" />

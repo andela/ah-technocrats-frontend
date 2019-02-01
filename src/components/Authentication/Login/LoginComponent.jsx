@@ -8,10 +8,7 @@ import './login.scss';
 import FormInput from './FormInput';
 import SuccessComponent from './SuccessComponent';
 import SocialLoginComponent from '../SocialLogin/SocialLoginComponent';
-
-const Errors = props => (
-  props.field.map(err => (<div className="errorMessage"><small className="error">{err}</small></div>))
-);
+import Errors from '../../common/ErrorComponent';
 
 const LoginComponent = ({
   onSubmit,

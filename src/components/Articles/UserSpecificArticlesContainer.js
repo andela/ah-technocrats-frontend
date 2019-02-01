@@ -10,6 +10,7 @@ import UserSpecificArticleComponent from './UserSpecificArticleComponent';
 import { deleteArticle, fetchAuthorArticles } from '../../actions/deleteArticleAction';
 import DeletedArticle, { ArticleNotFound } from './DeletedArticle';
 import Footer from '../Footer/Footer';
+import { updated } from '../../actions/updateArticles';
 
 export class UserSpecificArticleContainer extends React.Component {
   constructor() {
@@ -21,10 +22,11 @@ export class UserSpecificArticleContainer extends React.Component {
   }
 
   componentWillMount() {
-    const { fetchOwnArticles } = this.props;
+    const { fetchOwnArticles, resetUpdated } = this.props;
     document.title = 'AuthorsHaven | My Articles';
     const author = Cookies.get('username');
     fetchOwnArticles(author);
+    resetUpdated(false);
   }
 
   setName =(name) => {
@@ -56,7 +58,7 @@ export class UserSpecificArticleContainer extends React.Component {
   )
 
   ArticlesComponents = () => {
-    const { articles } = this.props;
+    const { articles, history } = this.props;
     const { confirmDeleteOpen, name } = this.state;
     return articles.map(
       article => (
@@ -66,6 +68,7 @@ export class UserSpecificArticleContainer extends React.Component {
           modalOpen={confirmDeleteOpen}
           key={article.id}
           openModal={this.openModal}
+          history={history}
           name={name}
           setName={this.setName}
         />
@@ -128,6 +131,7 @@ UserSpecificArticleContainer.propTypes = {
   deleteSuccessful: PropTypes.shape().isRequired,
   fetchOwnArticles: PropTypes.func.isRequired,
   history: PropTypes.shape().isRequired,
+  resetUpdated: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
@@ -139,6 +143,7 @@ const mapStateToProps = state => ({
   articles: state.ownArticles.articles,
   deleteSuccessful: state.ownArticles.deleteSuccessful,
   loading: state.ownArticles.loading,
+  updated: state.updateArticlesReducer.updated,
   deleteFailed: state.ownArticles.deleteFailed,
 });
 
@@ -148,6 +153,7 @@ const mapDispatchToProps = dispatch => (
       dispatch(deleteArticle(articleSlug))
     ),
     fetchOwnArticles: author => dispatch(fetchAuthorArticles(author)),
+    resetUpdated: status => dispatch(updated(status)),
   }
 );
 

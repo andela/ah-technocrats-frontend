@@ -10,7 +10,6 @@ const initialState = {
   loading: false,
   fetchOwnArticlesFailed: false,
 };
-
 const ownArticlesReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ARTICLES:
