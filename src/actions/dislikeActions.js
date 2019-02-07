@@ -1,7 +1,7 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import * as types from './actionTypes';
 import { fetchArticle } from './viewArticleActions';
+import { LikeActionRejected, LikeActionReset } from './likeActions';
 
 // creates request action
 export const DislikeAction = request => (
@@ -20,28 +20,34 @@ export const DislikeSuccessful = success => (
 );
 
 // creates undisliking action
-export const DislikeFailed = failed => (
+export const DislikeFailed = error => (
   {
     type: types.DISLIKE_FAILED,
-    failed,
+    error,
   }
 );
 
-const token = Cookies.get('access_token');
+
+export const DisLikeActionReset = () => (
+  {
+    type: types.DISLIKE_RESET,
+  }
+);
+
+
 const url = 'https://ah-technocrats.herokuapp.com/api/articles';
-const headers = {
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Token ${token}`,
-  },
-};
-export const dislikeArticle = slug => (dispatch) => {
+export const dislikeArticle = (slug, token) => (dispatch) => {
   dispatch(DislikeAction(slug));
-  return axios.put(`${url}/${slug}/dislike/`, slug,
-    headers)
+  return axios.put(`${url}/${slug}/dislike/`, slug, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`,
+    },
+  })
     .then(res => dispatch(DislikeSuccessful(res.data.article),
       dispatch(fetchArticle(slug))))
     .catch((error) => {
-      dispatch(DislikeFailed(error));
+      dispatch(LikeActionRejected(error));
+      dispatch(LikeActionReset());
     });
 };

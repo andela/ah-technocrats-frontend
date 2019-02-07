@@ -3,12 +3,15 @@ import Enzyme, { shallow, mount } from 'enzyme';
 import expect from 'expect';
 import Adapter from 'enzyme-adapter-react-16';
 import { BrowserRouter } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 import SideBarMenu from '../Menu';
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
-
+const mockStore = configureStore([thunk]);
 const setupEnzymeWrapper = () => {
   const enzymeWrapper = shallow(<SideBarMenu />);
   return {
@@ -17,11 +20,19 @@ const setupEnzymeWrapper = () => {
 };
 
 const setUpMountWrapper = () => {
-//   const store = {};
+  const store = mockStore(
+    {
+      loginReducer: {
+        success: 'Login Successful',
+      },
+    },
+  );
   const mountWrapper = mount(
-    <BrowserRouter>
-      <SideBarMenu />
-    </BrowserRouter>,
+    <Provider store={store}>
+      <BrowserRouter>
+        <SideBarMenu />
+      </BrowserRouter>
+    </Provider>,
   );
   return {
     mountWrapper,

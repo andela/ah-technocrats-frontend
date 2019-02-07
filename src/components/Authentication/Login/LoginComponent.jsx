@@ -28,10 +28,8 @@ const LoginComponent = ({
         <div className="ui">
           <div className="ui column centered grid">
             <div className="ui ten wide column">
-
-              <SuccessComponent success={success} />
-              { success ? redirect() : null }
-
+              <SuccessComponent success={success === 'Successfully logged in' ? success : null} />
+              { success === 'Successfully logged in' ? redirect() : null }
               <div className="ui center aligned basic segment">
                 <h3>
                  Please Login or

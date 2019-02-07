@@ -1,13 +1,17 @@
 import React from 'react';
+import LikeDislikeArticleComponent from './LikeDislikeErrorComponent';
+
 
 const renderActionButtons = (article,
-  likeArticle, dislikeArticle, renderActionButton, renderLink) => (
+  likeArticle, dislikeArticle, renderActionButton, renderLink, likeFailing, dislikeFailing) => (
     <div className="ui right floated column inline" style={{ display: 'contents' }}>
+      <LikeDislikeArticleComponent likeFailing={likeFailing} dislikeFailing={dislikeFailing} />
       {renderActionButton(
         'ui tiny toggle circular green button',
         'like',
         `Like   ${article.article.like.likeCount}`,
-        'thumbs up icon', likeArticle,
+        'thumbs up icon',
+        likeArticle,
       )}
       {renderActionButton(
         'ui tiny toggle circular red button',
