@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Loader, Segment, Sidebar } from 'semantic-ui-react';
+import {
+  Loader, Rating, Segment, Sidebar,
+} from 'semantic-ui-react';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import '../ResetPassword/resetpassword.scss';
 import './viewsinglearticle.scss';
@@ -12,15 +15,15 @@ import {
   WhatsappShareButton,
   EmailShareButton, FacebookIcon, WhatsappIcon, TwitterIcon, GooglePlusIcon, EmailIcon,
 } from 'react-share';
-import Cookies from 'js-cookie';
 import SideBarMenu from '../Menu/Menu';
 import Header from '../Header/Header';
 import * as likingActions from '../../actions/likeActions';
 import * as dislikeActions from '../../actions/dislikeActions';
-import Footer from '../Footer/Footer';
 import renderActionButtons from './LikeDislikeContainer';
 import { rateArticle } from '../../actions/ratingActions';
 import rateArticleComponent from './ratingArticleComponent';
+import Footer from '../Footer/Footer';
+import CommentContainer from '../Comments/CommentContainer';
 
 class ViewSingleArticleComponent extends Component {
   constructor() {
@@ -32,9 +35,10 @@ class ViewSingleArticleComponent extends Component {
   }
 
   componentDidMount() {
-    const { getArticle } = this.props;
-    const { match } = this.props;
-    getArticle(match.params.slug);
+    const { getArticle, getComments, match } = this.props;
+    getArticle(match.params.slug).then(() => {
+      getComments(match.params.slug);
+    });
   }
 
   // rating
@@ -48,11 +52,6 @@ class ViewSingleArticleComponent extends Component {
     const { rateArticle } = this.props;
     const token = Cookies.get('access_token');
     rateArticle(payload, token);
-  }
-
-  setInitialState(article) {
-    const value = article.article.rating.average;
-    this.state.rating = value;
   }
 
   renderActionButton = (buttonClass, id, content, iconClass, onClick) => (
@@ -74,51 +73,14 @@ class ViewSingleArticleComponent extends Component {
     dislike(match.params.slug);
   }
 
-  renderComment = article => (
-    <div className="comment">
-      {this.renderLink('avatar',
-        <img src="https://semantic-ui.com/images/avatar/large/joe.jpg" alt="" />,
-        `/profile/${article.article.author.username}`)}
-      <div className="content">
-        {this.renderLink('author', 'Joe Henderson',
-          `/profile/${article.article.author.username}`)}
-        <div className="metadata">
-          <span className="date">5 days ago</span>
-        </div>
-        <div className="text">
-            Dude, this is awesome. Thanks so much (
-          {this.renderLink('ui red text',
-            'Edited',
-            `/profile/${article.article.author.username}`)}
-            ) &nbsp;&nbsp;&nbsp;
-          {this.renderLink('',
-            'Edit',
-            `/profile/${article.article.author.username}`)}
-        </div>
-        <div className="actions">
-          {this.renderLink('reply',
-            'Reply',
-            `/profile/${article.article.author.username}`)}
-        </div>
-      </div>
-    </div>
-  );
+  setInitialState(article) {
+    const value = article.article.rating.average;
+    this.state.rating = value;
+  }
 
-  renderComments(article) {
+  renderComments(article, history) {
     return (
-      <div className="ui space space-bottom comments">
-        <h3 className="ui dividing header">Comments</h3>
-        {this.renderComment(article)}
-        <form className="ui reply form">
-          <div className="field">
-            <textarea />
-          </div>
-          <div className="ui green small labeled submit icon button">
-            <i className="icon edit" />
-              Add Reply
-          </div>
-        </form>
-      </div>
+      <CommentContainer article={article} renderLink={this.renderLink} history={history} />
     );
   }
 
@@ -282,7 +244,7 @@ ${window.location.href}`,
           {this.renderCenteredGrid(article)}
           {this.renderUiGrid(article)}
           {this.renderTagSpace()}
-          {this.renderComments(article)}
+          {this.renderComments(article, history)}
           {this.setInitialState(article)}
         </div>
       </div>
@@ -327,6 +289,7 @@ ViewSingleArticleComponent.propTypes = {
   rateArticle: PropTypes.func.isRequired,
   ratingReset: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
+  getComments: PropTypes.func,
   article: PropTypes.shape().isRequired,
   dislike: PropTypes.shape().isRequired,
   like: PropTypes.func.isRequired,
@@ -341,6 +304,7 @@ ViewSingleArticleComponent.propTypes = {
 
 ViewSingleArticleComponent.defaultProps = {
   history: null,
+  getComments: null,
 };
 
 const matchDispatchToProps = dispatch => (

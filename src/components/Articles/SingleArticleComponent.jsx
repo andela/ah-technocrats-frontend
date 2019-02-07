@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 
 
-const formatDates = (date) => {
+export const formatDates = (date) => {
   const dateFormat = {
     year: 'numeric',
     month: 'short',

@@ -23,10 +23,23 @@ describe('Rating article component', () => {
 });
 // mount
 describe('Rating on ViewSingleArticle tests', () => {
-  const getArticle = jest.fn();
+  const getArticle = () => new Promise(resolve => {});
   const store = mockStore({
     ratingReducer: {
       rating: 0,
+    },
+    dislikeReducer: {
+      error: ' ',
+    },
+    commentReducer: {
+      error: ' ',
+    },
+    getCommentsReducer: {
+      error: '',
+      comments: {},
+    },
+    editCommentReducer: {
+      error: '',
     },
   });
   const article = {

@@ -15,13 +15,22 @@ const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
 describe('ViewSingleArticle  tests', () => {
-  const getArticle = jest.fn();
+  const getArticle = () => new Promise(resolve => {});
   const store = mockStore({
     likeReducer: {
       loading: false,
       successfulMessage: null,
     },
     ratingReducer: {},
+    commentReducer: {
+      error: '',
+    },
+    getCommentsReducer: {
+      comments: { comments: [] },
+    },
+    editCommentReducer: {
+      error: '',
+    },
   });
   const article = {
     message: 'Article found.',
@@ -69,6 +78,7 @@ describe('ViewSingleArticle  tests', () => {
     article,
     getArticle,
     success,
+    
   };
   const wrapper = mount(
     <BrowserRouter>
