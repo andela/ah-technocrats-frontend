@@ -1,38 +1,44 @@
 import React from 'react';
-import Enzyme, { mount } from 'enzyme';
+import Enzyme, { shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
+import rateArticleComponent from '../ratingArticleComponent';
 import ViewSingleArticleComponent from '../ViewSingleArticleComponent';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-describe('ViewSingleArticle  tests', () => {
+// snapshot
+describe('Rating article component', () => {
+  const wrapper = shallow(<rateArticleComponent />);
+  it('should match the snapshot of the component.', () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+// mount
+describe('Rating on ViewSingleArticle tests', () => {
   const getArticle = jest.fn();
   const store = mockStore({
-    likeReducer: {
-      loading: false,
-      successfulMessage: null,
+    ratingReducer: {
+      rating: 0,
     },
-    ratingReducer: {},
   });
   const article = {
     message: 'Article found.',
     article: {
       id: 12,
-      title: 'A must read article that could be about anything, really.',
-      description: 'Description of my life in the music band of wannabe',
-      body: 'Sometimes in life things come somelife someday and sometimes they never seem to',
+      title: 'Hello hello',
+      description: 'Testing testing',
+      body: 'Where do I start',
       author: {
-        username: 'silaskenny',
-        email: 'silaskenn@gmail.com',
+        username: 'Mbishai',
+        email: 'mbishai@gmail.com',
         created_at: '2019-01-24T10:01:20.335672Z',
         bio: '',
         country: '',
@@ -52,7 +58,7 @@ describe('ViewSingleArticle  tests', () => {
         distributions: {},
       },
       image: 'goodimage',
-      article_slug: 'a-must-read-article-that-could-be-about-anything-really',
+      article_slug: 'Hello hello',
       created_at: '2019-01-24T10:15:01.767746Z',
       updated_at: '2019-01-24T10:15:01.767804Z',
       favorite: [],
@@ -63,7 +69,7 @@ describe('ViewSingleArticle  tests', () => {
   const props = {
     match: {
       params: {
-        slug: 'hey',
+        slug: 'hello hello',
       },
     },
     article,
@@ -78,17 +84,11 @@ describe('ViewSingleArticle  tests', () => {
     </BrowserRouter>,
   );
 
-  it('should render like and dislike buttons correctly', () => {
-    expect(wrapper.find('#like').exists()).toBe(true);
-  });
-  it('should render like and dislike buttons correctly', () => {
-    expect(wrapper.find('#dislike').exists()).toBe(true);
+  it('should render star actions', () => {
+    expect(wrapper.find('#star').exists()).toBe(true);
   });
 
-  it('calls like button', () => {
-    wrapper.find('button#like').simulate('click');
-  });
-  it('calls dislike button', () => {
-    wrapper.find('button#dislike').simulate('click');
+  it('calls the star component', () => {
+    wrapper.find('StarRatingComponent#star').simulate('click');
   });
 });

@@ -49,6 +49,11 @@ export const createSuccess = response => ({
   response,
 });
 
+export const createReset = response => ({
+  type: types.CREATE_ARTICLE_RESET,
+  response,
+});
+
 export function fetchArticles() {
   return (dispatch) => {
     dispatch(fetchAllArticles());

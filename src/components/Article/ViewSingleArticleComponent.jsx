@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {
-  Loader, Rating, Segment, Sidebar,
-} from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Loader, Segment, Sidebar } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import '../ResetPassword/resetpassword.scss';
 import './viewsinglearticle.scss';
@@ -13,26 +12,53 @@ import {
   WhatsappShareButton,
   EmailShareButton, FacebookIcon, WhatsappIcon, TwitterIcon, GooglePlusIcon, EmailIcon,
 } from 'react-share';
-import { connect } from 'react-redux';
+import Cookies from 'js-cookie';
 import SideBarMenu from '../Menu/Menu';
 import Header from '../Header/Header';
 import * as likingActions from '../../actions/likeActions';
 import * as dislikeActions from '../../actions/dislikeActions';
 import Footer from '../Footer/Footer';
 import renderActionButtons from './LikeDislikeContainer';
+import { rateArticle } from '../../actions/ratingActions';
+import rateArticleComponent from './ratingArticleComponent';
 
 class ViewSingleArticleComponent extends Component {
+  constructor() {
+    super();
+    this.state = {
+      rating: 0,
+    };
+    this.onStarClick = this.onStarClick.bind(this);
+  }
+
   componentDidMount() {
     const { getArticle } = this.props;
     const { match } = this.props;
     getArticle(match.params.slug);
   }
 
+  // rating
+  onStarClick(nextValue) {
+    this.setState({ rating: nextValue });
+    const { match } = this.props;
+    const articleSlug = match.params.slug;
+    const payload = {
+      slug: articleSlug, rating: { rating: nextValue },
+    };
+    const { rateArticle } = this.props;
+    const token = Cookies.get('access_token');
+    rateArticle(payload, token);
+  }
+
+  setInitialState(article) {
+    const value = article.article.rating.average;
+    this.state.rating = value;
+  }
+
   renderActionButton = (buttonClass, id, content, iconClass, onClick) => (
     <button type="button" className={buttonClass} id={id} onClick={onClick}>
       <i className={iconClass} />
       <span>
-        {' '}
         {content}
       </span>
     </button>
@@ -89,7 +115,6 @@ class ViewSingleArticleComponent extends Component {
           </div>
           <div className="ui green small labeled submit icon button">
             <i className="icon edit" />
-            {' '}
               Add Reply
           </div>
         </form>
@@ -115,14 +140,12 @@ class ViewSingleArticleComponent extends Component {
                 </div>
                 <div className="middle aligned content">
                     Written by:
-                  {' '}
                   {this.renderLink('',
                     article.article.author.username,
                     `/profiles/${article.article.author.username}`)}
                 </div>
               </div>
             </div>
-
           </div>
           {renderActionButtons(article,
             this.likeArticle, this.dislikeArticle, this.renderActionButton, this.renderLink)}
@@ -219,19 +242,11 @@ ${window.location.href}`,
     />
   );
 
-  renderSameLine = () => (
-    <div className="right float same-line">
-      <p className="bold">Rate article</p>
-      <Rating maxRating={5} clearable />
-    </div>
-  );
-
   renderFollow(article) {
     return this.renderLink('follow',
 
       <div className="ui label space-bottom">
         <i className="users icon" />
-        {' '}
           31 Followers
       </div>, `/${article.article.author.username}/followers`);
   }
@@ -240,8 +255,7 @@ ${window.location.href}`,
     <p className="small">
       <strong><i className="clock icon" /></strong>
       {article.article.read_time}
-      {' '}
-          min
+      min
     </p>
   );
 
@@ -253,21 +267,23 @@ ${window.location.href}`,
   );
 
   renderContainer(article) {
+    const { rating } = this.state;
+    const { history, failing } = this.props;
+
     return (
       <div className="ui container">
-
         <div className="ui space borderless">
-
           <h1 className="increase-size">{article.article.title}</h1>
           {this.renderWrittenBy(article)}
           {this.renderReadTime(article)}
           {this.renderFollow(article)}
-          {this.renderSameLine()}
+          {rateArticleComponent(this.onStarClick, rating, history, failing)}
           {this.renderArticleCover(article)}
           {this.renderCenteredGrid(article)}
           {this.renderUiGrid(article)}
           {this.renderTagSpace()}
           {this.renderComments(article)}
+          {this.setInitialState(article)}
         </div>
       </div>
     );
@@ -308,6 +324,8 @@ ${window.location.href}`,
   }
 }
 ViewSingleArticleComponent.propTypes = {
+  rateArticle: PropTypes.func.isRequired,
+  ratingReset: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
   article: PropTypes.shape().isRequired,
   dislike: PropTypes.shape().isRequired,
@@ -318,7 +336,9 @@ ViewSingleArticleComponent.propTypes = {
   match: PropTypes.shape().isRequired,
   history: PropTypes.shape(),
   url: PropTypes.string.isRequired,
+  failing: PropTypes.bool.isRequired,
 };
+
 ViewSingleArticleComponent.defaultProps = {
   history: null,
 };
@@ -331,6 +351,10 @@ const matchDispatchToProps = dispatch => (
     dislike: slug => (
       dispatch(dislikeActions.dislikeArticle(slug))
     ),
+
+    rateArticle: (articlesData, token) => (
+      dispatch(rateArticle(articlesData, token))
+    ),
   }
 );
 
@@ -338,6 +362,7 @@ function mapStateToProps(state) {
   return {
     likeReducer: state.likeReducer,
     dislikeReducer: state.dislikeReducer,
+    failing: state.ratingReducer.failing,
 
   };
 }

@@ -106,4 +106,14 @@ describe('article reducer', () => {
     const action = actions.createFail(message);
     expect(articleReducer(initialState, action)).toEqual(expected);
   });
+  it('Should handle CREATE_ARTICLE_RESET', () => {
+    const expected = {
+      items: [],
+      item: {},
+      createSuccess: false,
+      count: 0,
+    };
+    const action = actions.createReset();
+    expect(articleReducer(initialState, action)).toEqual(expected);
+  });
 });
