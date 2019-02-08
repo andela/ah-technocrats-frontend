@@ -35,19 +35,19 @@ describe('dislikeActions', () => {
     });
 
     it('should create a undislike failed action', () => {
-      const failed = 'You have undisliked this article';
+      const error = 'Please Log in to Continue.';
       const expectedAction = {
         type: types.DISLIKE_FAILED,
-        failed,
+        error,
       };
-      expect(dislikeActions.DislikeFailed(failed)).toEqual(expectedAction);
+      expect(dislikeActions.DislikeFailed(error)).toEqual(expectedAction);
     });
   });
 });
 
 describe('async login actions', () => {
   afterEach(
-    () => mock.restore()
+    () => mock.restore(),
   );
 
   it('should create an async action make dislike request', () => {

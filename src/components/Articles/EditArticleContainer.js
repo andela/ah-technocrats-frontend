@@ -1,6 +1,5 @@
 import React from 'react';
 import './Articles.scss';
-import Moment from 'react-moment';
 import { Modal, Button, Icon } from 'semantic-ui-react';
 
 

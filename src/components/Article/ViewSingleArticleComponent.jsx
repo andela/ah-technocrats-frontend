@@ -22,6 +22,7 @@ import renderActionButtons from './LikeDislikeContainer';
 import { rateArticle } from '../../actions/ratingActions';
 import rateArticleComponent from './ratingArticleComponent';
 
+
 class ViewSingleArticleComponent extends Component {
   constructor() {
     super();
@@ -66,12 +67,14 @@ class ViewSingleArticleComponent extends Component {
 
   likeArticle = () => {
     const { like, match } = this.props;
-    like(match.params.slug);
+    const token = Cookies.get('access_token');
+    like(match.params.slug, token);
   }
 
   dislikeArticle = () => {
     const { match, dislike } = this.props;
-    dislike(match.params.slug);
+    const token = Cookies.get('access_token');
+    dislike(match.params.slug, token);
   }
 
   renderComment = article => (
@@ -128,7 +131,7 @@ class ViewSingleArticleComponent extends Component {
     </Link>
   );
 
-  renderUiGrid(article) {
+  renderUiGrid(article, likeFailing, dislikeFailing) {
     return (
       <div className="ui grid">
         <div className="ui four column row">
@@ -148,7 +151,8 @@ class ViewSingleArticleComponent extends Component {
             </div>
           </div>
           {renderActionButtons(article,
-            this.likeArticle, this.dislikeArticle, this.renderActionButton, this.renderLink)}
+            this.likeArticle, this.dislikeArticle, this.renderActionButton, this.renderLink,
+            likeFailing, dislikeFailing)}
         </div>
         <div>
           <br />
@@ -235,8 +239,8 @@ ${window.location.href}`,
   renderArticleCover = article => (
     <img
       src={
-              article.article.image === '' ? 'https://i1.wp.com/thefrontline.org.uk/'
-                  + 'wp-content/uploads/2018/10/placeholder.jpg?ssl=1' : article.article.image}
+        article.article.image === '' ? 'https://i1.wp.com/thefrontline.org.uk/'
+            + 'wp-content/uploads/2018/10/placeholder.jpg?ssl=1' : article.article.image}
       alt=""
       className="ui space centered fluid image cover"
     />
@@ -244,11 +248,11 @@ ${window.location.href}`,
 
   renderFollow(article) {
     return this.renderLink('follow',
-
       <div className="ui label space-bottom">
         <i className="users icon" />
-          31 Followers
-      </div>, `/${article.article.author.username}/followers`);
+        {' '}
+          Follow
+      </div>, `/profiles/${article.article.author.username}`);
   }
 
   renderReadTime = article => (
@@ -270,6 +274,7 @@ ${window.location.href}`,
     const { rating } = this.state;
     const { history, failing } = this.props;
 
+    const { likeFailing, dislikeFailing } = this.props;
     return (
       <div className="ui container">
         <div className="ui space borderless">
@@ -280,7 +285,7 @@ ${window.location.href}`,
           {rateArticleComponent(this.onStarClick, rating, history, failing)}
           {this.renderArticleCover(article)}
           {this.renderCenteredGrid(article)}
-          {this.renderUiGrid(article)}
+          {this.renderUiGrid(article, likeFailing, dislikeFailing)}
           {this.renderTagSpace()}
           {this.renderComments(article)}
           {this.setInitialState(article)}
@@ -345,16 +350,20 @@ ViewSingleArticleComponent.defaultProps = {
 
 const matchDispatchToProps = dispatch => (
   {
-    like: slug => (
-      dispatch(likingActions.likeAction(slug))
+    like: (slug, token) => (
+      dispatch(likingActions.likeAction(slug, token))
     ),
-    dislike: slug => (
-      dispatch(dislikeActions.dislikeArticle(slug))
+    dislike: (slug, token) => (
+      dispatch(dislikeActions.dislikeArticle(slug, token))
     ),
 
     rateArticle: (articlesData, token) => (
       dispatch(rateArticle(articlesData, token))
     ),
+    unlikeUpdated: unsuccessfull => (
+      dispatch(likingActions.LikeActionRejected(unsuccessfull))
+    ),
+
   }
 );
 
@@ -363,6 +372,7 @@ function mapStateToProps(state) {
     likeReducer: state.likeReducer,
     dislikeReducer: state.dislikeReducer,
     failing: state.ratingReducer.failing,
+    likeFailing: state.likeReducer.error,
 
   };
 }

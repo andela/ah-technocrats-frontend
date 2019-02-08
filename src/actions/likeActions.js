@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import * as types from './actionTypes';
 import { fetchArticle } from './viewArticleActions';
 
@@ -19,16 +18,22 @@ export const LikeAction = successfulLike => (
   }
 );
 
-export const LikeActionRejected = unsuccessfull => (
+export const LikeActionRejected = error => (
   {
     type: types.LIKE_UNSUCCESSFUL,
-    unsuccessfull,
+    error,
   }
 );
 
+export const LikeActionReset = () => (
+  {
+    type: types.LIKE_RESET,
+  }
+);
+
+
 const url = 'https://ah-technocrats.herokuapp.com/api/articles';
-const token = Cookies.get('access_token');
-export const likeAction = slug => (dispatch) => {
+export const likeAction = (slug, token) => (dispatch) => {
   dispatch(Action(slug));
   return axios.put(`${url}/${slug}/like/`, slug, {
     headers: {
@@ -40,5 +45,6 @@ export const likeAction = slug => (dispatch) => {
       dispatch(fetchArticle(slug))))
     .catch((error) => {
       dispatch(LikeActionRejected(error));
+      dispatch(LikeActionReset());
     });
 };

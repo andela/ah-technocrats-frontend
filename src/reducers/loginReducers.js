@@ -5,6 +5,7 @@ const initialState = [{
   email: '',
   password: '',
   error: {},
+  isLoggedin: false,
 }];
 
 // forks logic depending on the action that comes in
@@ -18,7 +19,8 @@ const loginReducer = (state = initialState, action) => {
 
     case types.LOGIN_REJECTED:
       return { ...state, error: action.error, loading: false };
-
+    case types.LOGOUT_SUCCESSFUL:
+      return { ...state, successfulMessage: 'Successfully Logged Out' };
     default:
       return state;
   }

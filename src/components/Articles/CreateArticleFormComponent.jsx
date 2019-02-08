@@ -58,11 +58,12 @@ const CreateArticleForm = ({
                     placeholder="eg. This is an article about the story of John the Ripper throughout the history of UK"
                     multiple="multiple"
                     value={description}
+                    required
                   />
                 </div>
                 <br />
                 <br />
-                <Button className="descriptive" onClick={handleCloudinary}>Add Image</Button>
+                <Button type="button" className="descriptive" onClick={handleCloudinary}>Add Image</Button>
                 <br />
                 <br />
                 <img id="image" src="" alt="" />

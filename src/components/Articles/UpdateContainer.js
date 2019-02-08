@@ -67,7 +67,7 @@ class UpdateContainer extends React.Component {
   render() {
     const {
       error, loading, success,
-      article_slug, resetUpdated, updated, previousData, match,
+      resetUpdated, updated, previousData, match,
 
     } = this.props;
     const loginError = { ...error.error };

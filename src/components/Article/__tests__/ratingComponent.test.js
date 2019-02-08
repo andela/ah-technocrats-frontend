@@ -5,7 +5,6 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-
 import rateArticleComponent from '../ratingArticleComponent';
 import ViewSingleArticleComponent from '../ViewSingleArticleComponent';
 
@@ -27,6 +26,9 @@ describe('Rating on ViewSingleArticle tests', () => {
   const store = mockStore({
     ratingReducer: {
       rating: 0,
+    },
+    likeReducer: {
+      error: {},
     },
   });
   const article = {

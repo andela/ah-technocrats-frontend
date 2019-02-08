@@ -3,6 +3,7 @@ import * as types from '../actions/actionTypes';
 // sets default state
 const initialState = [{
   like: 0,
+  error: null,
 }];
 
 // forks logic depending on the action that comes in
@@ -15,10 +16,10 @@ const likeReducer = (state = initialState, action) => {
       return { ...state, like: action.successfulLike };
 
     case types.LIKE_UNSUCCESSFUL:
-      return { ...state, unlike: action.unsuccessfull };
+      return { ...state, error: action.error };
 
-    case types.LIKE_COUNT:
-      return { ...state, like: state.article.article.like.likeCount };
+    case types.LIKE_RESET:
+      return { ...state, error: null };
 
     default:
       return state;

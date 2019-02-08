@@ -147,6 +147,12 @@ export const updateProfileDetails = (details, token) => (
   }
 );
 
+/**
+ * @function getFollowers
+ * @param {string} username The name of the user
+ * @param {string} token
+ */
+
 export const getFollowers = (username, token) => (
   dispatch => (
     getData(dispatch, 'followers', username, token)

@@ -35,19 +35,19 @@ describe('likeActions', () => {
     });
 
     it('should create a like failed action', () => {
-      const unsuccessfull = 'You have unliked this article';
+      const error = 'Please Log in to Continue.';
       const expectedAction = {
         type: types.LIKE_UNSUCCESSFUL,
-        unsuccessfull,
+        error,
       };
-      expect(likeActions.LikeActionRejected(unsuccessfull)).toEqual(expectedAction);
+      expect(likeActions.LikeActionRejected(error)).toEqual(expectedAction);
     });
   });
 });
 
 describe('async like actions', () => {
   afterEach(
-    () => mock.restore()
+    () => mock.restore(),
   );
 
   it('should create an async action make like request', () => {

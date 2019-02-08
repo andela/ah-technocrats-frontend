@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import * as types from './actionTypes';
 
 // creates request action
@@ -17,6 +18,13 @@ export const LoginSuccessful = successfulMessage => (
   }
 );
 
+export const LogoutSuccess = successfulMessage => (
+  {
+    type: types.LOGOUT_SUCCESSFUL,
+    successfulMessage,
+  }
+);
+
 // creates login reject action
 export const LoginRejected = error => (
   {
@@ -31,11 +39,23 @@ export function loginUser(credentials) {
     try {
       const response = await axios.post('https://ah-technocrats.herokuapp.com/api/users/login/', credentials);
       const { token, username } = response.data.user;
-      document.cookie = `access_token=${token}`;
-      document.cookie = `username=${username}`;
+      Cookies.set('username', username, {
+        expires: 1 / 24,
+      });
+      Cookies.set('access_token', token, {
+        expires: 1 / 24,
+      });
       dispatch(LoginSuccessful(response.data));
     } catch (error) {
       dispatch(LoginRejected(error.response.data.errors));
     }
   };
 }
+
+export const logout = () => (
+  (dispatch) => {
+    Cookies.remove('username');
+    Cookies.remove('access_token');
+    dispatch(LogoutSuccess('Logout SuccessFul.'));
+  }
+);

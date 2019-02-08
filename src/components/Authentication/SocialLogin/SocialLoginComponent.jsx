@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import 'react-semantic-toasts/styles/react-semantic-alert.css';
 import { Loader } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
@@ -103,9 +104,14 @@ class SocialLoginComponent extends React.Component {
       crossDomain: true,
     })
       .then((response) => {
-        const { token } = response.data.user;
+        const { token, username } = response.data.user;
         localStorage.setItem('email', response.data.user.email);
-        document.cookie = `access_token=${token}`;
+        Cookies.set('access_token', token, {
+          expires: 1 / 24,
+        });
+        Cookies.set('username', username, {
+          expires: 1 / 24,
+        });
         dataFetch.receivedUsers(response.data);
       })
       .catch((err) => {
