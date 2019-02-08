@@ -14,8 +14,12 @@ import dislikeReducer from './dislikeReducer';
 import profilesReducer from './profilesReducer';
 import singleProfileReducer from './singleProfileReducer';
 import ratingReducer from './ratingReducer';
+import resetPassword from './resetPassword';
+import forgotPassword from './forgotPassword';
 
 const rootReducer = combineReducers({
+  resetPassword,
+  forgotPassword,
   registrationReducer,
   articles: articleReducer,
   ownArticles: ownArticlesReducer,
@@ -33,3 +37,4 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
+

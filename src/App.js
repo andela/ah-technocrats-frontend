@@ -3,17 +3,19 @@ import 'semantic-ui-css/semantic.min.css';
 import { Route } from 'react-router';
 import { Switch, BrowserRouter } from 'react-router-dom';
 import Error from './components/ErrorHandlers/MissingPageError';
-import ViewSingleArticleComponent from './container/viewArticleContainer';
 import ArticleContainerComponent from './components/Articles/ArticlesContainer';
 import RegistrationPageComponent from './components/Authentication/Registration/RegistrationPage';
 import LoginContainer from './components/Authentication/Login/LoginContainer';
 import Profile from './containers/ProfileContainer';
-import SearchResultsPageContainer from './components/Search/SearchResultsPage';
+import SearchResultsPageContainer, {SearchResultsPage} from './components/Search/SearchResultsPage';
 import UserSpecificArticlesContainer from './components/Articles/UserSpecificArticlesContainer';
 import IsAuthenticated from './common/IsAuthenticated';
 import UpdateContainer from './components/Articles/UpdateContainer';
 import ProfilesContainer from './containers/ProfilesContainer';
 import SingleProfileContainer from './containers/SingleProfileContainer';
+import ViewSingleArticleComponent from "./container/viewArticleContainer";
+import ForgotPassword  from "./container/forgotPassword";
+import ResetPasswordComponent from './container/resetPassword';
 import CreateArticleFormContainer from './components/Articles/CreateArticleFormContainer';
 
 class App extends Component {
@@ -34,6 +36,9 @@ class App extends Component {
             <Route path="/myarticles/:article_slug" component={UpdateContainer} exact />
             <IsAuthenticated exact path="/profiles" component={ProfilesContainer} />
             <IsAuthenticated exact path="/profiles/:profile" component={SingleProfileContainer} />
+            <Route path="/search" component={SearchResultsPage} exact />
+            <Route path='/forgot-password' component={ForgotPassword} exact/>
+            <Route path='/reset-password' component={ResetPasswordComponent} exact/>
             <Route component={Error} />
           </Switch>
         </BrowserRouter>
