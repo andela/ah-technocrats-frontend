@@ -8,7 +8,7 @@ pipeline {
     }
     stage('Test application') {
       steps {
-        sh 'npm run test'
+        sh 'npm run test -- -u --coverage'
       }
     }
   }
